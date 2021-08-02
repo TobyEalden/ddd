@@ -1,1 +1,1 @@
-# ddd
+# Distributed Device Descriptors
