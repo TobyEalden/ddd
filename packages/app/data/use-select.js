@@ -1,7 +1,7 @@
 import {useEffect, useState} from "react";
 
 export function useSelect(select) {
-  const [response, setResponse] = useState({});
+  const [response, setResponse] = useState({loading: true});
 
   useEffect(() => {
     console.log("running select");

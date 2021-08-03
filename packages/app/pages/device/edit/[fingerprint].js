@@ -4,7 +4,7 @@ import Button from "../../../components/button.jsx";
 import FormTextInput from "../../../components/form-text-input.jsx";
 import FormDetail from "../../../components/form-detail.jsx";
 import MainFull from "../../../components/main-full.jsx";
-import {saveKey} from "../../../data/entity_key.js";
+import {saveKey} from "../../../data/actor_key.js";
 import {keySchema} from "../../../util/form-schema.js";
 import {useRouter} from "next/router";
 import {useSelect} from "../../../data/use-select.js";
@@ -17,7 +17,7 @@ export default function EditKey() {
   const [errorSnack] = useErrorSnack();
   const router = useRouter();
   const keyData = useSelect(() =>
-    supabase.from("entity_key").select().eq("fingerprint", router.query.fingerprint).neq("status", 99)
+    supabase.from("actor_key").select().eq("fingerprint", router.query.fingerprint).neq("status", 99)
   );
 
   const handleSubmit = (data) => {

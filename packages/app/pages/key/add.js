@@ -4,8 +4,8 @@ import {useSuccessSnack, useErrorSnack} from "../../util/snackbar.js";
 import Button from "../../components/button.jsx";
 import FormTextInput from "../../components/form-text-input.jsx";
 import MainFull from "../../components/main-full.jsx";
-import {createKey} from "../../data/entity_key.js";
-import {generateKeyToPEM} from "../../util/crypto-helper.js";
+import {createKey} from "../../data/actor_key.js";
+import {generatePublicKeyToPEM, generatePrivateKeyToPEM} from "../../util/crypto-helper.js";
 import {keySchema} from "../../util/form-schema.js";
 
 export default function AddKey() {
@@ -15,7 +15,10 @@ export default function AddKey() {
   const handleSubmit = (data) => {
     console.log(data);
     createKey(data)
-      .then(() => {
+      .then((response) => {
+        if (response.error) {
+          throw response.error;
+        }
         successSnack("Key saved successfully.");
       })
       .catch((err) => {
@@ -23,10 +26,24 @@ export default function AddKey() {
       });
   };
 
-  const handleGenerateKey = (setter) => {
-    generateKeyToPEM()
+  const handleGeneratePublicKey = (setter) => {
+    generatePublicKeyToPEM()
       .then((pem) => {
         setter("public_key", pem);
+        successSnack("Key generated successfully.");
+      })
+      .catch((err) => {
+        console.error(err);
+        errorSnack(`Failed to generate key: ${err.message}`);
+      });
+  };
+
+  const handleGeneratePrivateKey = (setter) => {
+    generatePrivateKeyToPEM()
+      .then((pem) => {
+        setter("public_key", pem.public_key);
+        setter("private_key", pem.private_key);
+        console.log(pem.private_key);
         successSnack("Key generated successfully.");
       })
       .catch((err) => {
@@ -44,6 +61,7 @@ export default function AddKey() {
             <FormTextInput label="Key name" name="name" />
             <FormTextInput label="Description" name="description" />
             <FormTextInput label="Public key" name="public_key" />
+            <FormTextInput label="Private key" name="private_key" />
             <div className="flex flex-row justify-between">
               <Link href="/key">
                 <Button type="button" secondary={true} className="mr-2">
@@ -51,7 +69,12 @@ export default function AddKey() {
                 </Button>
               </Link>
               <div className="flex-grow" />
-              <Button type="button" secondary onClick={() => handleGenerateKey(props.setFieldValue)} className="mr-2">
+              <Button
+                type="button"
+                secondary
+                onClick={() => handleGeneratePrivateKey(props.setFieldValue)}
+                className="mr-2"
+              >
                 <i className="fad fa-wand-magic-sparkles mr-2" />
                 Generate Key
               </Button>

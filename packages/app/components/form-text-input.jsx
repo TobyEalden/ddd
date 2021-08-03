@@ -1,4 +1,4 @@
-import {Field, ErrorMessage, useField} from "formik";
+import {useField} from "formik";
 import Input from "./input.jsx";
 
 export default function FormTextInput({label, ...props}) {
@@ -6,7 +6,7 @@ export default function FormTextInput({label, ...props}) {
   return (
     <div className="flex flex-col">
       <label htmlFor={props.name}>{label}</label>
-      <Input {...field} {...props} />
+      <Input {...field} {...props} value={field.value || ""} />
       {meta.error && <div className="text-error">{meta.error}</div>}
     </div>
   );

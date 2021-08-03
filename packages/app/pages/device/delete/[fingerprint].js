@@ -5,7 +5,7 @@ import Link from "next/link";
 import {useSelect} from "../../../data/use-select.js";
 import {supabase} from "../../../util/supabase-client.js";
 import {useSuccessSnack, useErrorSnack} from "../../../util/snackbar.js";
-import {deleteKey} from "../../../data/entity_key.js";
+import {deleteKey} from "../../../data/actor_key.js";
 import PageHeading from "../../../components/page-heading.jsx";
 
 export default function DeleteKey() {
@@ -13,7 +13,7 @@ export default function DeleteKey() {
   const [errorSnack] = useErrorSnack();
   const router = useRouter();
   const keyData = useSelect(() =>
-    supabase.from("entity_key").select().eq("fingerprint", router.query.fingerprint).neq("status", 99)
+    supabase.from("actor_key").select().eq("fingerprint", router.query.fingerprint).neq("status", 99)
   );
 
   const handleDelete = () => {

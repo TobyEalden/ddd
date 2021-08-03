@@ -1,12 +1,12 @@
 import {useState} from "react";
-import Select from "react-select";
+import FormSelect from "./form-select.jsx";
 
 import {supabase} from "../util/supabase-client";
 import {useSelect} from "../data/use-select";
 
-export default function EntityTypeSelect() {
+export default function ActorTypeSelect(props) {
   const [selected, setSelected] = useState(null);
-  const {data, error} = useSelect(() => supabase.from("entity_type").select("*").neq("status", 99).order("name"));
+  const {data, error} = useSelect(() => supabase.from("actor_type").select("*").neq("status", 99).order("name"));
 
   let options = [];
   if (!error) {
@@ -16,12 +16,13 @@ export default function EntityTypeSelect() {
   }
 
   return (
-    <Select
+    <FormSelect
       defaultValue={selected}
       onChange={setSelected}
       options={options}
       getOptionLabel={(option) => option.name}
       getOptionValue={(option) => option.id}
+      {...props}
     />
   );
 }
