@@ -1,5 +1,5 @@
 const colors = require("tailwindcss/colors");
-const primary = colors.cyan;
+const primary = colors.rose;
 
 module.exports = {
   purge: ["./pages/**/*.{js,ts,jsx,tsx}", "./components/**/*.{js,ts,jsx,tsx}"],
@@ -18,10 +18,11 @@ module.exports = {
           inverted: colors.white,
         },
         secondary: {
-          DEFAULT: colors.gray[800],
+          DEFAULT: colors.gray[400],
+          inverted: colors.white,
         },
         paper: {
-          DEFAULT: colors.gray[100],
+          DEFAULT: colors.gray[200],
         },
         error: {
           DEFAULT: colors.red[500],
