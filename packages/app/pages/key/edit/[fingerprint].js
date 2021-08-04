@@ -1,24 +1,21 @@
 import {Formik, Form} from "formik";
 import Link from "next/link";
+
 import Button from "../../../components/button.jsx";
 import FormTextInput from "../../../components/form-text-input.jsx";
 import FormDetail from "../../../components/form-detail.jsx";
 import MainFull from "../../../components/main-full.jsx";
-import {saveKey} from "../../../data/actor_key.js";
-import {keySchema} from "../../../util/form-schema.js";
-import {useRouter} from "next/router";
-import {useSelect} from "../../../data/use-select.js";
-import {supabase} from "../../../util/supabase-client.js";
-import {useSuccessSnack, useErrorSnack} from "../../../util/snackbar.js";
 import PageHeading from "../../../components/page-heading.jsx";
 
+import {keySchema} from "../../../util/form-schema.js";
+import {saveKey, useActorKeySelect} from "../../../data/actor_key.js";
+import {useRouter} from "next/router";
+import {useSnacks} from "../../../util/snackbar.js";
+
 export default function EditKey() {
-  const [successSnack] = useSuccessSnack();
-  const [errorSnack] = useErrorSnack();
+  const [successSnack, errorSnack] = useSnacks();
   const router = useRouter();
-  const keyData = useSelect(() =>
-    supabase.from("actor_key").select().eq("fingerprint", router.query.fingerprint).neq("status", 99)
-  );
+  const keyData = useActorKeySelect(router.query.fingerprint);
 
   const handleSubmit = (data) => {
     console.log(data);

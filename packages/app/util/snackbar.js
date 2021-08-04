@@ -1,6 +1,6 @@
 import {useSnackbar} from "react-simple-snackbar";
 
-export function useSuccessSnack(message) {
+export function useSuccessSnack() {
   return useSnackbar({
     style: {
       color: "white",
@@ -10,7 +10,7 @@ export function useSuccessSnack(message) {
   });
 }
 
-export function useErrorSnack(messaage) {
+export function useErrorSnack() {
   return useSnackbar({
     style: {
       color: "white",
@@ -18,4 +18,8 @@ export function useErrorSnack(messaage) {
       backgroundColor: "#f44336",
     },
   });
+}
+
+export function useSnacks() {
+  return [...useSuccessSnack(), ...useErrorSnack()];
 }

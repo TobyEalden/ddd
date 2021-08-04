@@ -15,13 +15,12 @@ export const deviceTypeSchema = yup.object().shape({
     .string()
     .min(4, "Device type name must be at least 4 letters")
     .required("Please enter a name for the device type"),
-  description: yup.string(),
+  description: yup.string().nullable(),
   issuer_fingerprint: yup.string().required("Please select the issuing key"),
   // manufacturer: yup.string().uuid().required("Please select the manufacturer."),
 });
 
 export const profileSchema = yup.object().shape({
-  id: yup.string(),
   name: yup.string().min(2, "Please enter at least 2 letters").required("Please enter your name").default(""),
   bio: yup.string().default("").nullable(),
   email: yup.string().email().default(""),

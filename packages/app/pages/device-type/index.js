@@ -1,18 +1,18 @@
 import Link from "next/link";
-import {useSelect} from "../../data/use-select.js";
-import {supabase} from "../../util/supabase-client.js";
 
 import Button from "../../components/button.jsx";
 import ErrorPanel from "../../components/error-panel.jsx";
 import MainFull from "../../components/main-full.jsx";
 import PageHeading from "../../components/page-heading.jsx";
 
-export default function Devices() {
-  const {data, error} = useSelect(() => supabase.from("actor").select().neq("status", 99));
+import {useActorSelect} from "../../data/actor.js";
+
+export default function DeviceTypes() {
+  const {data, error, loading} = useActorSelect();
 
   return (
     <MainFull>
-      {!data && !error && <div className="bg-green-300 text-white-100 uppercase">loading</div>}
+      {loading && <div className="bg-green-300 text-white-100 uppercase">loading</div>}
       {error && <ErrorPanel>{error.message}</ErrorPanel>}
       {data && (
         <>

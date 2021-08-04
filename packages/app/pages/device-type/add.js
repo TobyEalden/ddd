@@ -10,15 +10,13 @@ import PageHeading from "../../components/page-heading.jsx";
 
 import {createDeviceType} from "../../data/actor.js";
 import {deviceTypeSchema} from "../../util/form-schema.js";
-import {supabase} from "../../util/supabase-client.js";
-import {useSelect} from "../../data/use-select.js";
-import {useSuccessSnack, useErrorSnack} from "../../util/snackbar.js";
+import {useActorKeySelect} from "../../data/actor_key.js";
+import {useSnacks} from "../../util/snackbar.js";
 
-export default function AddKey() {
-  const [successSnack] = useSuccessSnack();
-  const [errorSnack] = useErrorSnack();
+export default function AddDeviceType() {
+  const [successSnack, errorSnack] = useSnacks();
   const router = useRouter();
-  const keys = useSelect(() => supabase.from("actor_key").select().neq("status", 99));
+  const keys = useActorKeySelect();
 
   const handleSubmit = (data) => {
     console.log(data);

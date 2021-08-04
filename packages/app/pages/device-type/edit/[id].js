@@ -9,16 +9,13 @@ import MainFull from "../../../components/main-full.jsx";
 import PageHeading from "../../../components/page-heading.jsx";
 
 import {deviceTypeSchema} from "../../../util/form-schema.js";
-import {saveActor} from "../../../data/actor.js";
-import {supabase} from "../../../util/supabase-client.js";
-import {useSelect} from "../../../data/use-select.js";
-import {useSuccessSnack, useErrorSnack} from "../../../util/snackbar.js";
+import {saveActor, useActorSelect} from "../../../data/actor.js";
+import {useSnacks} from "../../../util/snackbar.js";
 
 export default function EditDeviceType() {
-  const [successSnack] = useSuccessSnack();
-  const [errorSnack] = useErrorSnack();
+  const [successSnack, errorSnack] = useSnacks();
   const router = useRouter();
-  const deviceType = useSelect(() => supabase.from("actor").select().eq("id", router.query.id).neq("status", 99));
+  const deviceType = useActorSelect(router.query.id);
 
   const handleSubmit = (data) => {
     console.log(data);

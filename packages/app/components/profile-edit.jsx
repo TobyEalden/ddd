@@ -11,13 +11,12 @@ import {profileSchema} from "../util/form-schema.js";
 import {supabase} from "../util/supabase-client.js";
 import {saveProfile} from "../data/profile.js";
 import {useSelect} from "../data/use-select.js";
-import {useErrorSnack, useSuccessSnack} from "../util/snackbar.js";
+import {useSnacks} from "../util/snackbar.js";
 import {useRouter} from "next/router";
 
 export default function ProfileEdit() {
   const profileData = useSelect(() => supabase.from("profile").select().eq("user_id", supabase.auth.user().id));
-  const [successSnack] = useSuccessSnack();
-  const [errorSnack] = useErrorSnack();
+  const [successSnack, errorSnack] = useSnacks();
   const router = useRouter();
 
   const handleSave = (data) => {

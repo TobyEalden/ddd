@@ -1,18 +1,17 @@
 import Button from "../../../components/button.jsx";
-import MainFull from "../../../components/main-full.jsx";
-import {useRouter} from "next/router";
 import Link from "next/link";
-import {useSelect} from "../../../data/use-select.js";
-import {supabase} from "../../../util/supabase-client.js";
-import {useSuccessSnack, useErrorSnack} from "../../../util/snackbar.js";
+import {useRouter} from "next/router";
+
+import MainFull from "../../../components/main-full.jsx";
 import PageHeading from "../../../components/page-heading.jsx";
-import {deleteActor} from "../../../data/actor.js";
+
+import {deleteActor, useActorSelect} from "../../../data/actor.js";
+import {useSnacks} from "../../../util/snackbar.js";
 
 export default function DeleteDeviceType() {
-  const [successSnack] = useSuccessSnack();
-  const [errorSnack] = useErrorSnack();
+  const [successSnack, errorSnack] = useSnacks();
   const router = useRouter();
-  const deviceType = useSelect(() => supabase.from("actor").select().eq("id", router.query.id).neq("status", 99));
+  const deviceType = useActorSelect(router.query.id);
 
   const handleDelete = () => {
     deleteActor(deviceType.data[0].id)

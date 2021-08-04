@@ -1,21 +1,21 @@
+import Link from "next/link";
+import {useRouter} from "next/router";
+
 import Button from "../../../components/button.jsx";
 import MainFull from "../../../components/main-full.jsx";
-import {useRouter} from "next/router";
-import Link from "next/link";
-import {useSelect} from "../../../data/use-select.js";
-import {supabase} from "../../../util/supabase-client.js";
 import FormDetail from "../../../components/form-detail.jsx";
 import PageHeading from "../../../components/page-heading.jsx";
+import ErrorPanel from "../../../components/error-panel.jsx";
+
+import {useActorSelect} from "../../../data/actor.js";
 
 export default function DetailDeviceType() {
   const router = useRouter();
-  const deviceType = useSelect(() =>
-    supabase.from("actor").select("*, actor_key(name, users(id))").eq("id", router.query.id).neq("status", 99)
-  );
+  const deviceType = useActorSelect(router.query.id);
 
   return (
     <MainFull>
-      {deviceType.error && <div>ERROR! {deviceType.error.message}</div>}
+      {deviceType.error && <ErrorPanel>ERROR! {deviceType.error.message}</ErrorPanel>}
       {deviceType.data && deviceType.data.length > 0 && (
         <>
           <PageHeading heading={`Details for '${deviceType.data[0].name}'`} />
@@ -24,10 +24,10 @@ export default function DetailDeviceType() {
             <FormDetail label="Description" detail={deviceType.data[0].description || "n/a"} />
             <FormDetail label="Id" detail={deviceType.data[0].id} pre={true} />
             <FormDetail label="Timestamp" detail={deviceType.data[0].updated_at || Date.now()} pre={true} />
-            <FormDetail label="Signed by" detail={deviceType.data[0].actor_key.name} />
-            <FormDetail label="User Id" detail={deviceType.data[0].actor_key.users.id} />
+            <FormDetail label="Signed by" detail={deviceType.data[0].actor_key.profile.name} />
+            <FormDetail label="Signing key" detail={deviceType.data[0].actor_key.name} />
             <div className="flex flex-row justify-between">
-              <Link href="/key">
+              <Link href="/device-type">
                 <Button type="button" secondary={true}>
                   Close
                 </Button>

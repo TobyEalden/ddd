@@ -1,16 +1,19 @@
 import {Formik, Form} from "formik";
 import Link from "next/link";
-import {useSuccessSnack, useErrorSnack} from "../../util/snackbar.js";
+import {useRouter} from "next/router";
+
 import Button from "../../components/button.jsx";
 import FormTextInput from "../../components/form-text-input.jsx";
 import MainFull from "../../components/main-full.jsx";
+
 import {createKey} from "../../data/actor_key.js";
 import {generatePublicKeyToPEM, generatePrivateKeyToPEM} from "../../util/crypto-helper.js";
 import {keySchema} from "../../util/form-schema.js";
+import {useSnacks} from "../../util/snackbar.js";
 
 export default function AddKey() {
-  const [successSnack] = useSuccessSnack();
-  const [errorSnack] = useErrorSnack();
+  const [successSnack, errorSnack] = useSnacks();
+  const router = useRouter();
 
   const handleSubmit = (data) => {
     console.log(data);
@@ -20,6 +23,7 @@ export default function AddKey() {
           throw response.error;
         }
         successSnack("Key saved successfully.");
+        router.replace("/key");
       })
       .catch((err) => {
         errorSnack(`Failed to save key: ${err.message}`);

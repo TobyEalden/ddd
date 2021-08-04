@@ -1,5 +1,5 @@
 import {supabase} from "../util/supabase-client";
 
-export function saveProfile({id, name, email, bio, user_id}) {
-  return supabase.from("profile").upsert({id, name, email, updated_at: "now()", user_id}).eq("id", id);
+export function saveProfile({name, email, bio, user_id}) {
+  return supabase.from("profile").upsert({name, email, updated_at: "now()", user_id}).eq("user_id", user_id);
 }

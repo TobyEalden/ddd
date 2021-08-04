@@ -1,4 +1,24 @@
-import {supabase} from "../util/supabase-client";
+import {supabase} from "../util/supabase-client.js";
+import {useSelect} from "./use-select.js";
+
+export function useActorSelect(id) {
+  return useSelect(() => {
+    if (id) {
+      return supabase
+        .from("actor")
+        .select("*, actor_type(name), actor_key(name, profile: profile_id(name))")
+        .eq("id", id)
+        .eq("actor_type.name", "device type")
+        .neq("status", 99);
+    } else {
+      return supabase
+        .from("actor")
+        .select("*, actor_type(name), actor_key(name, profile: profile_id(name))")
+        .eq("actor_type.name", "device type")
+        .neq("status", 99);
+    }
+  });
+}
 
 export function createDeviceType(data) {
   return supabase
@@ -17,12 +37,12 @@ export function createDeviceType(data) {
     });
 }
 
-export function createActor({name, description, issuer_fingerprint, actor_type}) {
+export function createActor({name, description, issuer_fingerprint, actor_type, profile_id}) {
   return supabase.from("actor").insert([
     {
       issuer_fingerprint,
       actor_type,
-      user_id: supabase.auth.user().id,
+      profile_id: supabase.auth.user().id,
       name,
       description,
       status: 0,
