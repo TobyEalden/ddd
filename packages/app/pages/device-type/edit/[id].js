@@ -1,11 +1,9 @@
-import {useState} from "react";
 import {Formik, Form} from "formik";
 import Link from "next/link";
 import {useRouter} from "next/router";
 
+import ActorClaims from "../../../components/actor-claims.jsx";
 import Button from "../../../components/button.jsx";
-import Dialog from "../../../components/dialog.jsx";
-import EditClaim from "../../../components/edit-claim.jsx";
 import FormTextInput from "../../../components/form-text-input.jsx";
 import FormDetail from "../../../components/form-detail.jsx";
 import MainFull from "../../../components/main-full.jsx";
@@ -14,24 +12,20 @@ import PageHeading from "../../../components/page-heading.jsx";
 import {deviceTypeSchema} from "../../../util/form-schema.js";
 import {saveActor, useDeviceType} from "../../../data/actor.js";
 import {useSnacks} from "../../../util/snackbar.js";
-import {supabase} from "../../../util/supabase-client.js";
-import DialogTitle from "../../../components/dialog-title.jsx";
-import ActorClaims from "../../../components/actor-claims.jsx";
+import FormTextArea from "../../../components/form-text-area.jsx";
 
 export default function EditDeviceType() {
   const [successSnack, errorSnack] = useSnacks();
-  const [addClaim, setAddClaim] = useState(false);
   const router = useRouter();
   const deviceType = useDeviceType(router.query.id);
 
-  const handleAddClaimToggle = () => {
-    setAddClaim(!addClaim);
-  };
-
   const handleSubmit = (data) => {
-    console.log(data);
+    data.description = JSON.stringify(JSON.parse(data.description), null, 2);
     saveActor(data)
-      .then(() => {
+      .then((response) => {
+        if (response.error) {
+          throw response.error;
+        }
         successSnack("Device type saved successfully.");
         router.replace(`/device-type/detail/${data.id}`);
       })
@@ -51,11 +45,8 @@ export default function EditDeviceType() {
               <Form className="flex flex-col space-y-2 w-full p-2">
                 <FormDetail label="Id" detail={props.values.id} pre={true} />
                 <FormTextInput label="Device type" name="name" />
-                <FormTextInput label="Description" name="description" />
+                <FormTextArea className="font-mono" label="Description" name="description" rows="5" />
                 <div className="flex flex-row justify-between">
-                  <Button type="button" className="w-min" onClick={handleAddClaimToggle}>
-                    Add&nbsp;Claim
-                  </Button>
                   <div />
                   {props.dirty && (
                     <Button type="submit">
@@ -64,9 +55,6 @@ export default function EditDeviceType() {
                   )}
                 </div>
                 <ActorClaims actorType="device type" actorId={router.query.id} editable />
-                <Button type="button" className="w-min" onClick={handleAddClaimToggle}>
-                  Add&nbsp;Claim
-                </Button>
                 <div className="flex flex-row justify-between">
                   <Link href="/device-type">
                     <Button type="button" secondary={true}>
@@ -75,13 +63,6 @@ export default function EditDeviceType() {
                   </Link>
                   <div />
                 </div>
-                <Dialog isOpen={addClaim} onDismiss={handleAddClaimToggle}>
-                  <DialogTitle title="New claim" onClose={handleAddClaimToggle} />
-                  <EditClaim
-                    claim={{subject_id: props.values.id, issuer_id: supabase.auth.user().id}}
-                    onClose={handleAddClaimToggle}
-                  />
-                </Dialog>
               </Form>
             )}
           </Formik>

@@ -23,6 +23,7 @@ export default function Claim({claim, editable}) {
           throw error;
         }
         successSnack("Claim deleted");
+        setConfirmDelete(false);
       })
       .catch((err) => {
         errorSnack(`Failed to delete claim: ${err.message}`);
@@ -58,7 +59,7 @@ export default function Claim({claim, editable}) {
     }
 
     return (
-      <div className="p-2 m-1 flex flex-row space-x-2 justify-between items-center">
+      <div className="flex flex-row space-x-2 justify-between items-center">
         <div className="flex-grow">
           <span className="font-bold">{claim.claim_definition.name}</span> [{claim.claim_definition.data_type}]
           <div className="">{value}</div>
@@ -72,12 +73,12 @@ export default function Claim({claim, editable}) {
     );
   } else {
     return (
-      <div className="p-2 m-1 flex flex-row justify-between items-center bg-warning text-warning-inverted rounded">
+      <div className="p-2 mt-2 mb-2 flex flex-row justify-between items-center bg-warning text-warning-inverted rounded">
         <span className="flex-grow">Are you sure you want to delete this claim?</span>
-        <Button className="mr-2 bg-warning-inverted text-warning" onClick={handleClaimDelete}>
+        <Button type="button" className="mr-2 bg-warning-inverted text-warning" onClick={handleClaimDelete}>
           Delete
         </Button>
-        <Button className="mr-2 bg-warning-inverted text-warning" onClick={() => setConfirmDelete(false)}>
+        <Button type="button" className="mr-2 bg-warning-inverted text-warning" onClick={() => setConfirmDelete(false)}>
           Cancel
         </Button>
       </div>

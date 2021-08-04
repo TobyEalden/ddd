@@ -14,7 +14,7 @@ export function useActor(actorTypeName, id) {
   return useSelect(() => {
     return supabase
       .from("actor")
-      .select("*, actor_type(name), actor_key(name, profile: profile_id(name))")
+      .select("*, actor_type(name), actor_key_public(name, profile: profile_id(name))")
       .eq("id", id)
       .eq("actor_type.name", actorTypeName)
       .neq("status", 99);
@@ -108,5 +108,5 @@ export function getActor(id) {
 }
 
 export function saveActor({id, name, description}) {
-  return supabase.from("actor").update({name, description, updated_at: "now()"}).eq("id", id);
+  return supabase.from("actor").update({name, description}).eq("id", id);
 }

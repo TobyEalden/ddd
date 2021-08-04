@@ -21,5 +21,5 @@ export function useErrorSnack() {
 }
 
 export function useSnacks() {
-  return [...useSuccessSnack(), ...useErrorSnack()];
+  return [useSuccessSnack()[0], useErrorSnack()[0]];
 }

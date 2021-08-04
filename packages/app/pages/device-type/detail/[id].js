@@ -25,9 +25,14 @@ export default function DetailDeviceType() {
             <FormDetail label="Description" detail={deviceType.data[0].description || "n/a"} />
             <FormDetail label="Id" detail={deviceType.data[0].id} pre={true} />
             <FormDetail label="Timestamp" detail={deviceType.data[0].updated_at || Date.now()} pre={true} />
-            <FormDetail label="Signed by" detail={deviceType.data[0].actor_key.profile.name} />
-            <FormDetail label="Signing key" detail={deviceType.data[0].actor_key.name} />
-            <FormDetail label="Claims" detail={<ActorClaims actorType="device type" actorId={router.query.id} />} />
+            <FormDetail label="Signed by" detail={deviceType.data[0].actor_key_public.profile.name} />
+            <FormDetail label="Signing key" detail={deviceType.data[0].actor_key_public.name} />
+            <FormDetail
+              label="Claims"
+              detail={
+                <ActorClaims actorType="device type" actorId={router.query.id} className="mt-2 border-t-2 pt-2" />
+              }
+            />
             <div className="flex flex-row justify-between">
               <Link href="/device-type">
                 <Button type="button" secondary={true}>

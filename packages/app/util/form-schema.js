@@ -15,7 +15,17 @@ export const deviceTypeSchema = yup.object().shape({
     .string()
     .min(4, "Device type name must be at least 4 letters")
     .required("Please enter a name for the device type"),
-  description: yup.string().nullable(),
+  description: yup
+    .string()
+    .required()
+    .test("validate JSON", "Must be proper JSON", (value) => {
+      try {
+        JSON.parse(value);
+        return true;
+      } catch (err) {
+        return false;
+      }
+    }),
   issuer_fingerprint: yup.string().required("Please select the issuing key"),
   // manufacturer: yup.string().uuid().required("Please select the manufacturer."),
 });
