@@ -1,4 +1,4 @@
-import {useState} from "react";
+import ErrorPanel from "./error-panel.jsx";
 import FormSelect from "./form-select.jsx";
 
 import {supabase} from "../util/supabase-client";
@@ -34,7 +34,7 @@ export default function ActorKeySelect(props) {
       />
     );
   } else {
-    content = <div className="p-2 m-2 bg-error text-error-inverted">{error.message}</div>;
+    content = <ErrorPanel>{error.message}</ErrorPanel>;
   }
 
   return content;

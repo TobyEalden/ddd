@@ -10,13 +10,13 @@ import PageHeading from "../../components/page-heading.jsx";
 
 import {createDeviceType} from "../../data/actor.js";
 import {deviceTypeSchema} from "../../util/form-schema.js";
-import {useActorKeySelect} from "../../data/actor_key.js";
+import {useActorKeys} from "../../data/actor_key.js";
 import {useSnacks} from "../../util/snackbar.js";
 
 export default function AddDeviceType() {
   const [successSnack, errorSnack] = useSnacks();
   const router = useRouter();
-  const keys = useActorKeySelect();
+  const keys = useActorKeys();
 
   const handleSubmit = (data) => {
     console.log(data);

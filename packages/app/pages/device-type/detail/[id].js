@@ -1,17 +1,18 @@
 import Link from "next/link";
 import {useRouter} from "next/router";
 
+import ActorClaims from "../../../components/actor-claims.jsx";
 import Button from "../../../components/button.jsx";
 import MainFull from "../../../components/main-full.jsx";
 import FormDetail from "../../../components/form-detail.jsx";
 import PageHeading from "../../../components/page-heading.jsx";
 import ErrorPanel from "../../../components/error-panel.jsx";
 
-import {useActorSelect} from "../../../data/actor.js";
+import {useDeviceType} from "../../../data/actor.js";
 
 export default function DetailDeviceType() {
   const router = useRouter();
-  const deviceType = useActorSelect(router.query.id);
+  const deviceType = useDeviceType(router.query.id);
 
   return (
     <MainFull>
@@ -26,6 +27,7 @@ export default function DetailDeviceType() {
             <FormDetail label="Timestamp" detail={deviceType.data[0].updated_at || Date.now()} pre={true} />
             <FormDetail label="Signed by" detail={deviceType.data[0].actor_key.profile.name} />
             <FormDetail label="Signing key" detail={deviceType.data[0].actor_key.name} />
+            <FormDetail label="Claims" detail={<ActorClaims actorType="device type" actorId={router.query.id} />} />
             <div className="flex flex-row justify-between">
               <Link href="/device-type">
                 <Button type="button" secondary={true}>

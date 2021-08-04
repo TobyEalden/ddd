@@ -23,6 +23,9 @@ export default function FormSelect({label, ...props}) {
     } else {
       helpers.setValue(opt.value);
     }
+    if (props.onChange) {
+      props.onChange(opt);
+    }
   };
 
   return (

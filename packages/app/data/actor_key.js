@@ -2,7 +2,7 @@ import {digestMessageBase58} from "../util/crypto-helper.js";
 import {supabase} from "../util/supabase-client.js";
 import {useSelect} from "./use-select.js";
 
-export function useActorKeySelect(fingerprint) {
+export function useActorKey(fingerprint) {
   return useSelect(() => {
     if (fingerprint) {
       return supabase.from("actor_key").select().eq("fingerprint", fingerprint).neq("status", 99);
@@ -10,6 +10,10 @@ export function useActorKeySelect(fingerprint) {
       return supabase.from("actor_key").select().neq("status", 99);
     }
   });
+}
+
+export function useActorKeys() {
+  return useSelect(() => supabase.from("actor_key").select().neq("status", 99));
 }
 
 export function createKey({name, description, public_key, private_key}) {

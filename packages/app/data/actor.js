@@ -1,22 +1,44 @@
 import {supabase} from "../util/supabase-client.js";
 import {useSelect} from "./use-select.js";
 
-export function useActorSelect(id) {
+export function useDeviceType(id) {
+  return useActor("device type", id);
+}
+
+export function useDeviceTypes(orderBy = "name") {
+  return useActors("device type", orderBy);
+}
+
+export function useActor(actorTypeName, id) {
   return useSelect(() => {
-    if (id) {
-      return supabase
-        .from("actor")
-        .select("*, actor_type(name), actor_key(name, profile: profile_id(name))")
-        .eq("id", id)
-        .eq("actor_type.name", "device type")
-        .neq("status", 99);
-    } else {
-      return supabase
-        .from("actor")
-        .select("*, actor_type(name), actor_key(name, profile: profile_id(name))")
-        .eq("actor_type.name", "device type")
-        .neq("status", 99);
-    }
+    return supabase
+      .from("actor")
+      .select("*, actor_type(name), actor_key(name, profile: profile_id(name))")
+      .eq("id", id)
+      .eq("actor_type.name", actorTypeName)
+      .neq("status", 99);
+  });
+}
+
+export function useActorWithClaims(actorTypeName, id) {
+  return useSelect(() => {
+    return supabase
+      .from("actor")
+      .select("*, actor_type(name), actor_key(name, profile: profile_id(name)), claim(*, claim_definition(*))")
+      .eq("id", id)
+      .eq("actor_type.name", actorTypeName)
+      .neq("status", 99);
+  });
+}
+
+export function useActors(actorTypeName, orderBy = "name") {
+  return useSelect(() => {
+    return supabase
+      .from("actor")
+      .select("*, actor_type(name), actor_key(name, profile: profile_id(name))")
+      .eq("actor_type.name", actorTypeName)
+      .neq("status", 99)
+      .order(orderBy);
   });
 }
 
