@@ -12,6 +12,7 @@ import {createDeviceType} from "../../data/actor.js";
 import {deviceTypeSchema} from "../../util/form-schema.js";
 import {useActorKeys} from "../../data/actor_key.js";
 import {useSnacks} from "../../util/snackbar.js";
+import LoadingPanel from "../../components/loading-panel.jsx";
 
 export default function AddDeviceType() {
   const [successSnack, errorSnack] = useSnacks();
@@ -36,7 +37,7 @@ export default function AddDeviceType() {
   return (
     <MainFull>
       <PageHeading heading="Add a device type" />
-      {keys.loading && <div className="p-2 m-2 bg-error text-error-inverted">Loading...</div>}
+      {keys.loading && <LoadingPanel>Loading...</LoadingPanel>}
       {!keys.loading && (
         <Formik
           initialValues={{issuer_fingerprint: keys.data[0].fingerprint}}
@@ -49,7 +50,7 @@ export default function AddDeviceType() {
               <FormTextInput label="Description" name="description" />
               <ActorKeySelect label="Signing key" name="issuer_fingerprint" options={keys.data} />
               <div className="flex flex-row justify-between">
-                <Link href="/key">
+                <Link href="/device-type">
                   <Button type="button" secondary={true} className="mr-2">
                     Close
                   </Button>

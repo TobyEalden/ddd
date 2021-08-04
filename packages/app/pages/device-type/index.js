@@ -2,6 +2,7 @@ import Link from "next/link";
 
 import Button from "../../components/button.jsx";
 import ErrorPanel from "../../components/error-panel.jsx";
+import LoadingPanel from "../../components/loading-panel.jsx";
 import MainFull from "../../components/main-full.jsx";
 import PageHeading from "../../components/page-heading.jsx";
 
@@ -12,7 +13,7 @@ export default function DeviceTypes() {
 
   return (
     <MainFull>
-      {loading && <div className="bg-green-300 text-white-100 uppercase">loading</div>}
+      {loading && <LoadingPanel>Loading...</LoadingPanel>}
       {error && <ErrorPanel>{error.message}</ErrorPanel>}
       {data && (
         <>

@@ -20,9 +20,9 @@ import ActorClaims from "../../../components/actor-claims.jsx";
 
 export default function EditDeviceType() {
   const [successSnack, errorSnack] = useSnacks();
+  const [addClaim, setAddClaim] = useState(false);
   const router = useRouter();
   const deviceType = useDeviceType(router.query.id);
-  const [addClaim, setAddClaim] = useState(false);
 
   const handleAddClaimToggle = () => {
     setAddClaim(!addClaim);
@@ -52,10 +52,21 @@ export default function EditDeviceType() {
                 <FormDetail label="Id" detail={props.values.id} pre={true} />
                 <FormTextInput label="Device type" name="name" />
                 <FormTextInput label="Description" name="description" />
+                <div className="flex flex-row justify-between">
+                  <Button type="button" className="w-min" onClick={handleAddClaimToggle}>
+                    Add&nbsp;Claim
+                  </Button>
+                  <div />
+                  {props.dirty && (
+                    <Button type="submit">
+                      <i className="fad fa-save mr-2" /> Save Details
+                    </Button>
+                  )}
+                </div>
+                <ActorClaims actorType="device type" actorId={router.query.id} editable />
                 <Button type="button" className="w-min" onClick={handleAddClaimToggle}>
                   Add&nbsp;Claim
                 </Button>
-                <ActorClaims actorType="device type" actorId={router.query.id} editable />
                 <div className="flex flex-row justify-between">
                   <Link href="/device-type">
                     <Button type="button" secondary={true}>
@@ -63,12 +74,9 @@ export default function EditDeviceType() {
                     </Button>
                   </Link>
                   <div />
-                  <Button type="submit">
-                    <i className="fad fa-save mr-2" /> Save Device Type
-                  </Button>
                 </div>
                 <Dialog isOpen={addClaim} onDismiss={handleAddClaimToggle}>
-                  <DialogTitle title="Edit claim" onClose={handleAddClaimToggle} />
+                  <DialogTitle title="New claim" onClose={handleAddClaimToggle} />
                   <EditClaim
                     claim={{subject_id: props.values.id, issuer_id: supabase.auth.user().id}}
                     onClose={handleAddClaimToggle}

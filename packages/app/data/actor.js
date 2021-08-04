@@ -1,3 +1,4 @@
+import {useEffect, useState} from "react";
 import {supabase} from "../util/supabase-client.js";
 import {useSelect} from "./use-select.js";
 
@@ -20,15 +21,41 @@ export function useActor(actorTypeName, id) {
   });
 }
 
+export function selectActorWithClaims(actorTypeName, id) {
+  return supabase
+    .from("actor")
+    .select("*, actor_type(name), actor_key(name, profile: profile_id(name)), claim(*, claim_definition(*))")
+    .eq("id", id)
+    .eq("actor_type.name", actorTypeName)
+    .neq("status", 99)
+    .order("name", {foreignTable: "claim_definition"});
+}
+
 export function useActorWithClaims(actorTypeName, id) {
   return useSelect(() => {
-    return supabase
-      .from("actor")
-      .select("*, actor_type(name), actor_key(name, profile: profile_id(name)), claim(*, claim_definition(*))")
-      .eq("id", id)
-      .eq("actor_type.name", actorTypeName)
-      .neq("status", 99);
+    selectActorWithClaims(actorTypeName, id);
   });
+}
+
+export function subscribeActorWithClaims(actorTypeName, id) {
+  const [payload, setPayload] = useState({});
+
+  useEffect(() => {
+    const subscription = supabase
+      .from("claim")
+      .on("*", () => {
+        selectActorWithClaims(actorTypeName, id).then((response) => setPayload(response));
+      })
+      .subscribe();
+
+    selectActorWithClaims(actorTypeName, id).then((response) => setPayload(response));
+
+    return () => {
+      supabase.removeSubscription(subscription);
+    };
+  }, [actorTypeName, id]);
+
+  return payload;
 }
 
 export function useActors(actorTypeName, orderBy = "name") {

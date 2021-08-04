@@ -1,10 +1,10 @@
-import {useActorWithClaims} from "../data/actor.js";
+import {subscribeActorWithClaims} from "../data/actor.js";
 import Claim from "./claim.jsx";
 import ErrorPanel from "./error-panel.jsx";
 import LoadingPanel from "./loading-panel.jsx";
 
 export default function ActorClaims({actorId, actorType, editable}) {
-  const {data, error, loading} = useActorWithClaims(actorType, actorId);
+  const {data, error, loading} = subscribeActorWithClaims(actorType, actorId);
 
   return (
     <div className="p-2">
@@ -13,7 +13,7 @@ export default function ActorClaims({actorId, actorType, editable}) {
       {!loading &&
         !!data &&
         data[0].claim.map((claim) => {
-          return <Claim claim={claim} editable />;
+          return <Claim claim={claim} editable={editable} />;
         })}
     </div>
   );
