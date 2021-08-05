@@ -6,7 +6,7 @@ import LoadingPanel from "../../components/loading-panel.jsx";
 import MainFull from "../../components/main-full.jsx";
 import PageHeading from "../../components/page-heading.jsx";
 
-import {useDeviceTypes} from "../../data/actor.js";
+import {useDeviceTypes} from "../../data/device-type.js";
 
 export default function DeviceTypes() {
   const {data, error, loading} = useDeviceTypes();

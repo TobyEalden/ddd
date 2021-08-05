@@ -10,7 +10,7 @@ import {useSelect} from "../../data/use-select.js";
 import {supabase} from "../../util/supabase-client.js";
 
 export default function Keys() {
-  const {data, error, loading} = useSelect(() => supabase.from("actor_key").select().neq("status", 99));
+  const {data, error, loading} = useSelect(() => supabase.from("profile_key").select().neq("status", 99));
 
   return (
     <MainFull>

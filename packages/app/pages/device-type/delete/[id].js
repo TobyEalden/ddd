@@ -5,7 +5,7 @@ import {useRouter} from "next/router";
 import MainFull from "../../../components/main-full.jsx";
 import PageHeading from "../../../components/page-heading.jsx";
 
-import {deleteActor, useDeviceType} from "../../../data/actor.js";
+import {deleteDevice, useDeviceType} from "../../../data/device-type.js";
 import {useSnacks} from "../../../util/snackbar.js";
 
 export default function DeleteDeviceType() {
@@ -14,7 +14,7 @@ export default function DeleteDeviceType() {
   const deviceType = useDeviceType(router.query.id);
 
   const handleDelete = () => {
-    deleteActor(deviceType.data[0].id)
+    deleteDevice(deviceType.data[0].id)
       .then((response) => {
         if (response.error) {
           throw response.error;

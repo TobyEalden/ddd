@@ -2,7 +2,7 @@ import {Formik, Form} from "formik";
 import Link from "next/link";
 import {useRouter} from "next/router";
 
-import ActorClaims from "../../../components/actor-claims.jsx";
+import DeviceClaims from "../../../components/device-type-claims.jsx";
 import Button from "../../../components/button.jsx";
 import FormTextInput from "../../../components/form-text-input.jsx";
 import FormDetail from "../../../components/form-detail.jsx";
@@ -12,7 +12,7 @@ import OrganisationSelect from "../../../components/organisation-select.jsx";
 import PageHeading from "../../../components/page-heading.jsx";
 
 import {deviceTypeSchema} from "../../../util/form-schema.js";
-import {saveActor, useDeviceType} from "../../../data/actor.js";
+import {saveDeviceType, useDeviceType} from "../../../data/device-type.js";
 import {useSnacks} from "../../../util/snackbar.js";
 
 export default function EditDeviceType() {
@@ -24,7 +24,7 @@ export default function EditDeviceType() {
     if (data.description) {
       data.description = JSON.stringify(JSON.parse(data.description), null, 2);
     }
-    saveActor(data)
+    saveDeviceType(data)
       .then((response) => {
         if (response.error) {
           throw response.error;
@@ -43,7 +43,7 @@ export default function EditDeviceType() {
       {deviceType.data && (
         <>
           <PageHeading heading={`Edit device type '${deviceType.data[0].name}'`} />
-          <Formik initialValues={deviceType.data[0]} onSubmit={handleSubmit} validationSchema={deviceTypeSchema}>
+          <Formik initialValues={deviceType.data[0]} validationSchema={deviceTypeSchema}>
             {(props) => (
               <Form className="flex flex-col space-y-2 w-full p-2">
                 <FormDetail label="Id" detail={props.values.id} pre={true} />
@@ -54,12 +54,12 @@ export default function EditDeviceType() {
                 <div className="flex flex-row justify-between">
                   <div />
                   {props.dirty && (
-                    <Button type="submit">
+                    <Button type="button" onClick={() => handleSubmit(props.values)}>
                       <i className="fad fa-save mr-2" /> Save Details
                     </Button>
                   )}
                 </div>
-                <ActorClaims actorType="device type" actorId={router.query.id} editable />
+                {/* <DeviceClaims deviceType="device type" deviceId={router.query.id} editable /> */}
                 <div className="flex flex-row justify-between">
                   <Link href="/device-type">
                     <Button type="button" secondary={true}>

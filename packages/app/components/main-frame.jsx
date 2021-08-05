@@ -8,13 +8,13 @@ import {supabase} from "../util/supabase-client.js";
 import {useSelect} from "../data/use-select.js";
 
 export default function MainFrame({children, session}) {
-  const authActor = useSelect(() => supabase.from("profile").select().eq("user_id", supabase.auth.user().id));
+  const authDevice = useSelect(() => supabase.from("profile").select().eq("user_id", supabase.auth.user().id));
 
-  if (authActor.loading) {
+  if (authDevice.loading) {
     return <LoadingPanel>Loading profile...</LoadingPanel>;
-  } else if (authActor.error) {
-    return <ErrorPanel>Failure loading profile: {authActor.error.message}</ErrorPanel>;
-  } else if (!authActor.data || authActor.data.length !== 1) {
+  } else if (authDevice.error) {
+    return <ErrorPanel>Failure loading profile: {authDevice.error.message}</ErrorPanel>;
+  } else if (!authDevice.data || authDevice.data.length !== 1) {
     return <ProfileEdit />;
   } else {
     return (

@@ -2,7 +2,7 @@ import {Formik, Form} from "formik";
 import Link from "next/link";
 import {useRouter} from "next/router";
 
-import ActorKeySelect from "../../components/actor-key-select.jsx";
+import ProfileKeySelect from "../../components/profile-key-select.jsx";
 import Button from "../../components/button.jsx";
 import DeviceTypeSelect from "../../components/device-type-select.jsx";
 import ErrorPanel from "../../components/error-panel.jsx";
@@ -12,15 +12,15 @@ import MainFull from "../../components/main-full.jsx";
 import OrganisationSelect from "../../components/organisation-select.jsx";
 import PageHeading from "../../components/page-heading.jsx";
 
-import {createDeviceType} from "../../data/actor.js";
+import {createDeviceType} from "../../data/device-type.js";
 import {deviceTypeSchema} from "../../util/form-schema.js";
-import {useActorKeys} from "../../data/actor_key.js";
+import {useProfileKeys} from "../../data/profile-key.js";
 import {useSnacks} from "../../util/snackbar.js";
 
 export default function AddDeviceType() {
   const [successSnack, errorSnack] = useSnacks();
   const router = useRouter();
-  const keys = useActorKeys();
+  const keys = useProfileKeys();
 
   const handleSubmit = (data) => {
     console.log(data);
@@ -63,7 +63,7 @@ export default function AddDeviceType() {
               <FormTextInput label="Description" name="description" />
               <FormTextInput label="Model number" name="model" />
               <OrganisationSelect label="Manufacturer" name="organisation_id" editable />
-              <ActorKeySelect label="Signing key" name="issuer_fingerprint" options={keys.data} />
+              <ProfileKeySelect label="Signing key" name="issuer_fingerprint" options={keys.data} />
               <div className="flex flex-row justify-between">
                 <Link href="/device-type">
                   <Button type="button" secondary={true} className="mr-2">

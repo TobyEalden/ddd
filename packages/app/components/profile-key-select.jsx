@@ -4,11 +4,11 @@ import FormSelect from "./form-select.jsx";
 import {supabase} from "../util/supabase-client";
 import {useSelect} from "../data/use-select";
 
-export default function ActorKeySelect(props) {
-  // Don't reload actor keys if `options` has been passed in props.
+export default function ProfileKeySelect(props) {
+  // Don't reload device keys if `options` has been passed in props.
   const selector = props.options
     ? () => Promise.resolve({data: props.options})
-    : () => supabase.from("actor_key").select("*").neq("status", 99).order("name");
+    : () => supabase.from("profile_key").select("*").neq("status", 99).order("name");
   const {data, error, loading} = useSelect(selector);
 
   let content;
