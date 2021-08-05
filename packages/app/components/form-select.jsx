@@ -29,9 +29,15 @@ export default function FormSelect({label, ...props}) {
   };
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col space-y-1">
       <label htmlFor={props.name}>{label}</label>
-      <Select {...props} value={getOption(field.value)} onBlur={field.onBlur} onChange={setValue} />
+      <Select
+        className="border-primary border-2 rounded"
+        {...props}
+        value={getOption(field.value)}
+        onBlur={field.onBlur}
+        onChange={setValue}
+      />
       {meta.error && <div className="text-error">{meta.error}</div>}
     </div>
   );

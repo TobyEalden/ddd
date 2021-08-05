@@ -4,16 +4,16 @@ import Button from "./button.jsx";
 import Claim from "./claim.jsx";
 import Dialog from "./dialog.jsx";
 import DialogTitle from "./dialog-title.jsx";
-import EditClaim from "./edit-claim.jsx";
+import ClaimEdit from "./claim-edit.jsx";
 import ErrorPanel from "./error-panel.jsx";
 import InfoPanel from "./info-panel.jsx";
 import LoadingPanel from "./loading-panel.jsx";
 
-import {subscribeActorWithClaims} from "../data/actor.js";
+import {useSubscribeActorWithClaims} from "../data/actor.js";
 import {supabase} from "../util/supabase-client.js";
 
 export default function ActorClaims({actorId, actorType, className, editable}) {
-  const {data, error} = subscribeActorWithClaims(actorType, actorId);
+  const {data, error} = useSubscribeActorWithClaims(actorType, actorId);
   const [addClaim, setAddClaim] = useState(false);
 
   const handleAddClaimToggle = () => {
@@ -49,7 +49,7 @@ export default function ActorClaims({actorId, actorType, className, editable}) {
 
             <Dialog isOpen={addClaim} onDismiss={handleAddClaimToggle}>
               <DialogTitle title="New claim" onClose={handleAddClaimToggle} />
-              <EditClaim
+              <ClaimEdit
                 claim={{subject_id: actorId, issuer_id: supabase.auth.user().id}}
                 onClose={handleAddClaimToggle}
               />

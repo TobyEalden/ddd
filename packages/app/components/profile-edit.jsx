@@ -1,3 +1,4 @@
+import {useState} from "react";
 import {Form, Formik} from "formik";
 
 import Button from "./button.jsx";
@@ -5,6 +6,7 @@ import ErrorPanel from "./error-panel.jsx";
 import FormDetail from "./form-detail.jsx";
 import FormTextInput from "./form-text-input.jsx";
 import LoadingPanel from "./loading-panel.jsx";
+import OrganisationSelect from "./organisation-select.jsx";
 import PageHeading from "./page-heading.jsx";
 
 import {profileSchema} from "../util/form-schema.js";
@@ -62,6 +64,7 @@ export default function ProfileEdit() {
             <FormDetail label="User id" detail={supabase.auth.user().id} pre={true} />
             <FormTextInput label="Name" name="name" />
             <FormTextInput label="Email [optional]" name="email" />
+            <OrganisationSelect label="Organisation" name="organisation_id" editable />
             <FormTextInput label="Bio [optional]" name="bio" />
             <div className="flex flex-row justify-between">
               <div />

@@ -5,13 +5,14 @@ import Button from "./button.jsx";
 import ClaimDefinitionSelect from "./claim-definition-select.jsx";
 import DialogTitle from "./dialog-title.jsx";
 import Dialog from "./dialog.jsx";
-import EditClaimDefinition from "./edit-claim-definition.jsx";
+import ClaimDefinitionEdit from "./claim-definition-edit.jsx";
 import FormTextInput from "./form-text-input.jsx";
 
 import {useSnacks} from "../util/snackbar.js";
 import {saveClaim} from "../data/claim.js";
+import FormTextArea from "./form-text-area.jsx";
 
-export default function EditClaim({claim, onClose}) {
+export default function ClaimEdit({claim, onClose}) {
   const [addDefinition, setAddDefinition] = useState(false);
   const [selectedDefinition, setSelectedDefinition] = useState(claim.claim_definition || null);
   const [successSnack, errorSnack] = useSnacks();
@@ -72,10 +73,12 @@ export default function EditClaim({claim, onClose}) {
             <Button type="button" className="w-min" onClick={handleAddDefinitionToggle}>
               {addDefinition ? "Cancel" : <span>Add&nbsp;Definition</span>}
             </Button>
-            {props.values.definition_id && <FormTextInput autoFocus label="Claim value" name="value" />}
+            {props.values.definition_id && (
+              <FormTextArea autoFocus label={`Claim value [${selectedDefinition.data_type}]`} name="value" rows={4} />
+            )}
             <Dialog isOpen={addDefinition} onDismiss={handleAddDefinitionToggle}>
               <DialogTitle title="Edit claim definition" onClose={handleAddDefinitionToggle} />
-              <EditClaimDefinition subjectId={subject_id} onClose={handleAddDefinitionToggle} />
+              <ClaimDefinitionEdit subjectId={subject_id} onClose={handleAddDefinitionToggle} />
             </Dialog>
             <div className="flex justify-between">
               <Button type="button" secondary={true} onClick={() => onClose()}>

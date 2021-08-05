@@ -1,17 +1,21 @@
 import Link from "next/link";
+
 import Button from "../../components/button.jsx";
+import ErrorPanel from "../../components/error-panel.jsx";
+import LoadingPanel from "../../components/loading-panel.jsx";
 import MainFull from "../../components/main-full.jsx";
-import {useSelect} from "../../data/use-select.js";
-import {supabase} from "../../util/supabase-client.js";
 import PageHeading from "../../components/page-heading.jsx";
 
+import {useSelect} from "../../data/use-select.js";
+import {supabase} from "../../util/supabase-client.js";
+
 export default function Keys() {
-  const {data, error} = useSelect(() => supabase.from("actor_key").select().neq("status", 99));
+  const {data, error, loading} = useSelect(() => supabase.from("actor_key").select().neq("status", 99));
 
   return (
     <MainFull>
-      {!data && !error && <div className="bg-green-300 text-white-100 uppercase">loading</div>}
-      {error && <div className="bg-red-400 text-white-100">{error.message}</div>}
+      {loading && <LoadingPanel>loading</LoadingPanel>}
+      {error && <ErrorPanel>{error.message}</ErrorPanel>}
       {data && (
         <>
           <PageHeading heading="Your keys" />

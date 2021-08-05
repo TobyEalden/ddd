@@ -6,7 +6,7 @@ import Button from "./button.jsx";
 import ClaimDefinitionDataTypeSelect from "./claim-definition-data-type-select.jsx";
 import FormTextInput from "./form-text-input.jsx";
 
-export default function EditClaimDefinition({subjectId, onClose}) {
+export default function ClaimDefinitionEdit({subjectId, onClose}) {
   const [successSnack, errorSnack] = useSnacks();
 
   const onSave = (data) => {

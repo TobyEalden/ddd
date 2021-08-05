@@ -1,4 +1,3 @@
-import {useEffect} from "react";
 import {supabase} from "../util/supabase-client.js";
 import {useSelect} from "./use-select.js";
 

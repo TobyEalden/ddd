@@ -36,6 +36,10 @@ module.exports = {
           DEFAULT: colors.amber[400],
           inverted: colors.white,
         },
+        info: {
+          DEFAULT: primary[200],
+          inverted: colors.black,
+        },
       },
     },
   },

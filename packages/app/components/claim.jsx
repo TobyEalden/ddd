@@ -2,7 +2,7 @@ import {useState} from "react";
 
 import Dialog from "./dialog.jsx";
 import DialogTitle from "./dialog-title.jsx";
-import EditClaim from "./edit-claim.jsx";
+import ClaimEdit from "./claim-edit.jsx";
 import {deleteClaim} from "../data/claim.js";
 import {useSnacks} from "../util/snackbar.js";
 import Button from "./button.jsx";
@@ -59,7 +59,7 @@ export default function Claim({claim, editable}) {
     }
 
     return (
-      <div className="flex flex-row space-x-2 justify-between items-center">
+      <div className="flex flex-row space-x-2 justify-between items-center border-b-2 my-2 pb-2">
         <div className="flex-grow">
           <span className="font-bold">{claim.claim_definition.name}</span> [{claim.claim_definition.data_type}]
           <div className="">{value}</div>
@@ -67,7 +67,7 @@ export default function Claim({claim, editable}) {
         {editOptions}
         <Dialog isOpen={editClaim} onDismiss={handleEditClaimToggle}>
           <DialogTitle title="Edit claim" onClose={handleEditClaimToggle} />
-          <EditClaim claim={claim} onClose={handleEditClaimToggle} />
+          <ClaimEdit claim={claim} onClose={handleEditClaimToggle} />
         </Dialog>
       </div>
     );

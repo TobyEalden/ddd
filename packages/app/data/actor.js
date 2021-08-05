@@ -1,6 +1,8 @@
 import {useEffect, useState} from "react";
+
 import {supabase} from "../util/supabase-client.js";
 import {useSelect} from "./use-select.js";
+import {useSubscribe} from "./use-subscribe.js";
 
 export function useDeviceType(id) {
   return useActor("device type", id);
@@ -37,7 +39,7 @@ export function useActorWithClaims(actorTypeName, id) {
   });
 }
 
-export function subscribeActorWithClaims(actorTypeName, id) {
+export function useSubscribeActorWithClaims(actorTypeName, id) {
   const [payload, setPayload] = useState({});
 
   useEffect(() => {
@@ -58,15 +60,27 @@ export function subscribeActorWithClaims(actorTypeName, id) {
   return payload;
 }
 
+export function selectActors(actorTypeName, orderBy = "name") {
+  return supabase
+    .from("actor")
+    .select("*, actor_type(name), actor_key(name, profile: profile_id(name))")
+    .eq("actor_type.name", actorTypeName)
+    .neq("status", 99)
+    .order(orderBy);
+}
+
 export function useActors(actorTypeName, orderBy = "name") {
   return useSelect(() => {
-    return supabase
-      .from("actor")
-      .select("*, actor_type(name), actor_key(name, profile: profile_id(name))")
-      .eq("actor_type.name", actorTypeName)
-      .neq("status", 99)
-      .order(orderBy);
+    return selectActors(actorTypeName, orderBy);
   });
+}
+
+export function useSubscribeActors(actorTypeName, orderBy = "name") {
+  return useSubscribe("actor", selectActors, actorTypeName, orderBy);
+}
+
+export function useSubscribeDeviceTypes(orderBy = "name") {
+  return useSubscribeActors("device-type", orderBy);
 }
 
 export function createDeviceType(data) {
@@ -86,15 +100,11 @@ export function createDeviceType(data) {
     });
 }
 
-export function createActor({name, description, issuer_fingerprint, actor_type, profile_id}) {
+export function createActor(data) {
   return supabase.from("actor").insert([
     {
-      issuer_fingerprint,
-      actor_type,
+      ...data,
       profile_id: supabase.auth.user().id,
-      name,
-      description,
-      status: 0,
     },
   ]);
 }
