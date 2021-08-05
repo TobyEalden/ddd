@@ -35,7 +35,7 @@ export default function DeleteDeviceType() {
           <PageHeading heading={`Confirm deletion of device type '${deviceType.data[0].name}'`} />
           <div className="text-lg p-8 m-8 bg-yellow-400 text-white rounded-md flex flex-row items-center">
             <i className="fad fa-triangle-exclamation mr-4 text-4xl" />
-            Are you sure you want to delete device type '{deviceType.data[0].name}'?
+            Are you sure you want to delete device type &apos;{deviceType.data[0].name}&apos;?
           </div>
           <div className="flex flex-col space-y-2 w-full p-2">
             <div className="flex flex-row justify-between">

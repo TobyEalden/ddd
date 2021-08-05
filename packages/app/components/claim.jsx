@@ -46,13 +46,13 @@ export default function Claim({claim, editable}) {
             className="hover:bg-primary hover:text-primary-inverted p-2 text-primary-dark rounded cursor-pointer"
             onClick={handleEditClaimToggle}
           >
-            <i className="fad fa-edit" />
+            <i className="fad fa-edit fa-lg" />
           </div>
           <div
             className="hover:bg-primary hover:text-primary-inverted p-2 text-primary-dark rounded cursor-pointer"
             onClick={() => setConfirmDelete(true)}
           >
-            <i className="fad fa-trash" />
+            <i className="fad fa-trash fa-lg" />
           </div>
         </>
       );

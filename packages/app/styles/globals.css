@@ -10,6 +10,10 @@
   @apply visible z-50;
 }
 
-i {
-  font-size: 24px;
+/*
+ Make sure the ReachUI dialog overlay is above
+ the header and sidebar
+*/
+[data-reach-dialog-overlay] {
+  @apply z-30;
 }

@@ -1,3 +1,4 @@
+import {useEffect, useState} from "react";
 import Link from "next/link";
 import {useRouter} from "next/router";
 
@@ -13,6 +14,21 @@ import {useDeviceType} from "../../../data/actor.js";
 export default function DetailDeviceType() {
   const router = useRouter();
   const deviceType = useDeviceType(router.query.id);
+  const [graph, setGraph] = useState(null);
+
+  useEffect(() => {
+    import("react-cytoscapejs").then((component) => {
+      const Component = component.default;
+      const rendered = <Component elements={elements} style={{width: "600px", height: "600px"}} />;
+      setGraph(rendered);
+    });
+  }, []);
+
+  const elements = [
+    {data: {id: "one", label: "Node 1"}, position: {x: 0, y: 0}},
+    {data: {id: "two", label: "Node 2"}, position: {x: 100, y: 0}},
+    {data: {source: "one", target: "two", label: "Edge from Node1 to Node2"}},
+  ];
 
   return (
     <MainFull>
@@ -51,6 +67,7 @@ export default function DetailDeviceType() {
                 </Button>
               </Link>
             </div>
+            {graph}
           </div>
         </>
       )}

@@ -46,7 +46,7 @@ export default function OrganisationSelect({editable, ...props}) {
         />
         {editable && (
           <>
-            <Button type="button" className="w-min" onClick={handleAddOrganisationToggle}>
+            <Button type="button" secondary className="w-min" onClick={handleAddOrganisationToggle}>
               Add&nbsp;Organisation
             </Button>
             <Dialog isOpen={addOrganisation} onDismiss={handleAddOrganisationToggle}>

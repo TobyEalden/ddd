@@ -70,7 +70,7 @@ export default function ClaimEdit({claim, onClose}) {
               reloadTrigger={addDefinition}
               onChange={(def) => setSelectedDefinition(def)}
             />
-            <Button type="button" className="w-min" onClick={handleAddDefinitionToggle}>
+            <Button type="button" secondary className="w-min" onClick={handleAddDefinitionToggle}>
               {addDefinition ? "Cancel" : <span>Add&nbsp;Definition</span>}
             </Button>
             {props.values.definition_id && (

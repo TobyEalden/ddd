@@ -35,8 +35,8 @@ export default function ActorClaims({actorId, actorType, className, editable}) {
           </Button>
         )}
 
-        {claims.map((claim) => {
-          return <Claim claim={claim} editable={editable} />;
+        {claims.map((claim, idx) => {
+          return <Claim key={idx} claim={claim} editable={editable} />;
         })}
 
         {claims.length === 0 && <InfoPanel>No claims.</InfoPanel>}

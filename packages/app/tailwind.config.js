@@ -29,8 +29,8 @@ module.exports = {
           inverted: colors.white,
         },
         loading: {
-          DEFAULT: colors.green[400],
-          inverted: colors.white,
+          DEFAULT: colors.gray[200],
+          inverted: colors.gray[500],
         },
         warning: {
           DEFAULT: colors.amber[400],
