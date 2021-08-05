@@ -4,104 +4,102 @@ import {supabase} from "../util/supabase-client.js";
 import {useSelect} from "./use-select.js";
 import {useSubscribe} from "./use-subscribe.js";
 
-export function selectDeviceType(id) {
-  return supabase.from("device_type").select("*, organisation(name)").eq("id", id).neq("status", 99);
+export function selectFirmware(id) {
+  return supabase.from("firmware").select("*, organisation(name)").eq("id", id).neq("status", 99);
 }
 
-export function selectDeviceTypeSignatures(id) {
+export function selectFirmwareSignatures(id) {
   return supabase
-    .from("device_type")
-    .select(
-      "*, device_type_signature(signed_at, profile_key_public(name, profile: profile_id(name))), organisation(name)"
-    )
+    .from("firmware")
+    .select("*, firmware_signature(signed_at, profile_key_public(name, profile: profile_id(name))), organisation(name)")
     .eq("id", id)
     .neq("status", 99)
-    .order("signed_at", {foreignTable: "device_type_signature"})
+    .order("signed_at", {foreignTable: "firmware_signature"})
     .order("name", {foreignTable: "profile"});
 }
 
-export function selectDeviceTypeBindings(id) {
+export function selectFirmwareBindings(id) {
   return supabase
     .from("firmware_binding")
     .select(
-      "signed_at, device_type(*, organisation(name)), firmware(*), profile_key_public(name, profile: profile_id(name))"
+      "signed_at, firmware(*), device_type(*, organisation(name)),  profile_key_public(name, profile: profile_id(name))"
     )
-    .eq("device_type_id", id)
+    .eq("firmware_id", id)
     .neq("device_type.status", 99)
     .neq("firmware.status", 99);
 }
 
-export function useDeviceType(id) {
-  return useSelect(() => selectDeviceType(id));
+export function useFirmware(id) {
+  return useSelect(() => selectFirmware(id));
 }
 
-export function useDeviceTypeSignatures(id) {
-  return useSelect(() => selectDeviceTypeSignatures(id));
+export function useFirmwareSignatures(id) {
+  return useSelect(() => selectFirmwareSignatures(id));
 }
 
-export function useDeviceTypeBindings(id) {
-  return useSelect(() => selectDeviceTypeBindings(id));
+export function useFirmwareBindings(id) {
+  return useSelect(() => selectFirmwareBindings(id));
 }
 
-export function selectDeviceTypeWithHierarchy(id) {
+export function selectFirmwareWithHierarchy(id) {
   return supabase
-    .from("device_type_hierarchy")
-    .select("*, device_type: ancestor_id(*)")
+    .from("firmware_hierarchy")
+    .select("*, firmware: ancestor_id(*)")
     .eq("descendant_id", id)
     .order("depth");
 }
 
-export function useDeviceTypeHierarchy(id) {
-  return useSelect(() => selectDeviceTypeWithHierarchy(id));
+export function useFirmwareHierarchy(id) {
+  return useSelect(() => selectFirmwareWithHierarchy(id));
 }
 
-export function useSubscribeDeviceTypeWithClaims(deviceTypeName, id) {
+export function useSubscribeFirmwareWithClaims(firmwareName, id) {
   const [payload, setPayload] = useState({});
 
   useEffect(() => {
     const subscription = supabase
       .from("claim")
       .on("*", () => {
-        selectDeviceType(id).then((response) => setPayload(response));
+        selectFirmware(id).then((response) => setPayload(response));
       })
       .subscribe();
 
-    selectDeviceType(id).then((response) => setPayload(response));
+    selectFirmware(id).then((response) => setPayload(response));
 
     return () => {
       supabase.removeSubscription(subscription);
     };
-  }, [deviceTypeName, id]);
+  }, [firmwareName, id]);
 
   return payload;
 }
 
-export function selectDeviceTypes(orderBy = "name") {
-  return supabase.from("device_type").select().neq("status", 99).order(orderBy);
+export function selectFirmwares(orderBy = "name") {
+  return supabase.from("firmware").select().neq("status", 99).order(orderBy);
 }
 
-export function useDeviceTypes(orderBy = "name") {
+export function useFirmwares(orderBy = "name") {
   return useSelect(() => {
-    return selectDeviceTypes(orderBy);
+    return selectFirmwares(orderBy);
   });
 }
 
-export function useSubscribeDeviceTypes(orderBy = "name") {
-  return useSubscribe("device_types", selectDeviceTypes, orderBy);
+export function useSubscribeFirmwares(orderBy = "name") {
+  return useSubscribe("firmwares", selectFirmwares, orderBy);
 }
 
-export function createDeviceTypeSignature(device_type_id, issuer_fingerprint) {
-  return supabase.from("device_type_signature").insert([
+export function createFirmwareSignature(firmware_id, issuer_fingerprint) {
+  return supabase.from("firmware_signature").insert([
     {
-      device_type_id,
+      firmware_id,
       profile_key_id: issuer_fingerprint,
     },
   ]);
 }
 
-export function createDeviceTypeInheritance(parentId, childId, issuer_fingerprint) {
+export function createFirmwareInheritance(parentId, childId, issuer_fingerprint) {
   return supabase
-    .from("device_type_hierarchy")
+    .from("firmware_hierarchy")
     .select()
     .eq("descendant_id", parentId)
     .order("depth")
@@ -164,40 +162,60 @@ export function createDeviceTypeInheritance(parentId, childId, issuer_fingerprin
         }
       }
 
-      return supabase.from("device_type_hierarchy").insert(childNodes);
+      return supabase.from("firmware_hierarchy").insert(childNodes);
     });
 }
 
-export function createDeviceType({issuer_fingerprint, parent_id, ...data}) {
+export function createFirmware({issuer_fingerprint, parent_id, ...data}) {
   return supabase
-    .from("device_type")
+    .from("firmware")
     .insert(data)
     .then((response) => {
       if (response.error) {
         return response;
       }
-      return createDeviceTypeSignature(response.data[0].id, issuer_fingerprint);
+      return createFirmwareSignature(response.data[0].id, issuer_fingerprint);
     })
     .then((response) => {
       if (response.error) {
         return response;
       }
-      return createDeviceTypeInheritance(
+      return createFirmwareInheritance(
         parent_id || "00000000-0000-0000-0000-000000000000",
-        response.data[0].device_type_id,
+        response.data[0].firmware_id,
         issuer_fingerprint
       );
     });
 }
 
-export function deleteDeviceType(id) {
-  return supabase.from("device_type").update({status: 99}).eq("id", id);
+export function deleteFirmware(id) {
+  return supabase.from("firmware").update({status: 99}).eq("id", id);
 }
 
-export function getDeviceType(id) {
-  return supabase.from("device_type").select().eq("id", id).neq("status", 99);
+export function getFirmware(id) {
+  return supabase.from("firmware").select().eq("id", id).neq("status", 99);
 }
 
-export function saveDeviceType({id, name, description}) {
-  return supabase.from("device_type").update({name, description, updated_at: new Date()}).eq("id", id);
+export function saveFirmware({id, name, description, payload_number, version_number, organisation_id, download_url}) {
+  return supabase
+    .from("firmware")
+    .update({
+      id,
+      name,
+      description,
+      payload_number,
+      version_number,
+      organisation_id,
+      download_url,
+      updated_at: new Date(),
+    })
+    .eq("id", id);
+}
+
+export function addFirmwareBinding(firmware_id, device_type_id, profile_key_id) {
+  return supabase.from("firmware_binding").insert({
+    firmware_id,
+    device_type_id,
+    profile_key_id,
+  });
 }

@@ -9,7 +9,7 @@ export function useProfileKey(fingerprint) {
 }
 
 export function useProfileKeys() {
-  return useSelect(() => supabase.from("profile_key").select().neq("status", 99));
+  return useSelect(() => supabase.from("profile_key").select().neq("status", 99).order("name"));
 }
 
 export function createKey({name, description, public_key, private_key}) {

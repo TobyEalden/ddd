@@ -44,3 +44,15 @@ export const organisationSchema = yup.object().shape({
     )
     .default(""),
 });
+
+export const firmwareSchema = yup.object().shape({
+  name: yup
+    .string()
+    .min(4, "Firmware name must be at least 4 letters")
+    .required("Please enter a name for the firmware"),
+  description: yup.string().nullable(),
+  download_url: yup.string().url().default("").nullable(),
+  payload_number: yup.string().default("").nullable(),
+  version_number: yup.string().default("").nullable(),
+  organisation_id: yup.string().required("Please select the manufacturer").uuid().default(""),
+});
