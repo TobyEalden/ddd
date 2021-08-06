@@ -60,6 +60,7 @@ export function selectInheritedDeviceTypeBindings(deviceTypeId) {
         .in("device_type_id", deviceIds)
         .neq("device_type.status", 99)
         .neq("firmware.status", 99)
+        .order("device_type_id")
         .order("depth", {ascending: true});
     });
 }

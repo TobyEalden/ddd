@@ -1,8 +1,6 @@
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import {useRouter} from "next/router";
 import Link from "next/link";
-import Cytoscape from "cytoscape";
-import dagre from "cytoscape-dagre";
 
 import Button from "../../../components/button.jsx";
 import ErrorPanel from "../../../components/error-panel.jsx";
@@ -14,65 +12,12 @@ import MainFull from "../../../components/main-full.jsx";
 import PageHeading from "../../../components/page-heading.jsx";
 import SectionHeading from "../../../components/section-heading.jsx";
 
-import {useFirmware, useFirmwareHierarchy} from "../../../data/firmware.js";
-
-Cytoscape.use(dagre);
+import {useFirmware} from "../../../data/firmware.js";
 
 export default function DetailFirmware() {
   const router = useRouter();
   const firmware = useFirmware(router.query.id);
-  const hierarchy = useFirmwareHierarchy(router.query.id);
-  const [graph, setGraph] = useState(null);
   const [toggleShowBinding, setToggleShowBinding] = useState(false);
-
-  useEffect(() => {
-    if (!hierarchy.loading && !firmware.loading && firmware.data && hierarchy.data) {
-      import("react-cytoscapejs").then((component) => {
-        const elements = [];
-
-        console.log("building graph");
-
-        hierarchy.data.push({firmware: firmware.data[0]});
-
-        let edge = null;
-        hierarchy.data.forEach((treeNode, idx) => {
-          if (!treeNode.firmware) {
-            return;
-          }
-
-          elements.push({
-            data: {
-              id: treeNode.firmware.id,
-              label: treeNode.firmware.name,
-            },
-          });
-
-          if (edge) {
-            elements.push({
-              data: {
-                source: edge.firmware.id,
-                target: treeNode.firmware.id,
-                label: "inherits",
-              },
-            });
-          }
-          edge = treeNode;
-        });
-
-        const Component = component.default;
-        const rendered = (
-          <Component
-            className="flex-grow"
-            style={{minHeight: "200px"}}
-            elements={elements}
-            userZoomingEnabled={false}
-            layout={{name: "dagre"}}
-          />
-        );
-        setGraph(rendered);
-      });
-    }
-  }, [hierarchy.loading, firmware.loading]);
 
   return (
     <MainFull>
@@ -110,7 +55,6 @@ export default function DetailFirmware() {
               </Link>
             </div>
           </div>
-          {graph}
           <FirmwareBindDialog
             isOpen={toggleShowBinding}
             onDismiss={() => setToggleShowBinding(false)}

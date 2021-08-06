@@ -50,40 +50,52 @@ export default function DeviceTypeGraph({deviceTypeId, includeFirmware}) {
 
         if (includeFirmware) {
           let previousFirmware = null;
-          bindings.data.forEach((firmware, idx) => {
-            elements.push({
-              group: "nodes",
-              data: {
-                id: firmware.id,
-                label: firmware.name,
-              },
-              classes: idx === bindings.data.length - 1 ? "firmware-current" : "firmware-old",
-            });
 
-            if (idx === 0) {
-              // Connect the first firmware in the chain to the device type.
-              elements.push({
-                group: "edges",
-                data: {
-                  source: firmware.device_type.id,
-                  target: firmware.id,
-                  label: "binding",
-                },
-                classes: "firmware",
-              });
-            } else {
-              // Connect subsequent firmware in the chain to the previous firmware.
-              elements.push({
-                group: "edges",
-                data: {
-                  source: previousFirmware.id,
-                  target: firmware.id,
-                  label: "updates",
-                },
-                classes: "firmware",
-              });
+          const firmwareBindingRoot = {};
+          bindings.data.forEach((firmware) => {
+            if (!firmwareBindingRoot[firmware.device_type.id]) {
+              firmwareBindingRoot[firmware.device_type.id] = [];
             }
-            previousFirmware = firmware;
+            firmwareBindingRoot[firmware.device_type.id].push(firmware);
+          });
+
+          Object.keys(firmwareBindingRoot).forEach((deviceTypeId) => {
+            const deviceBindings = firmwareBindingRoot[deviceTypeId];
+            deviceBindings.forEach((firmware, idx) => {
+              elements.push({
+                group: "nodes",
+                data: {
+                  id: firmware.id,
+                  label: firmware.name,
+                },
+                classes: idx === deviceBindings.length - 1 ? "firmware-current" : "firmware-old",
+              });
+
+              if (idx === 0) {
+                // Connect the first firmware in the chain to the device type.
+                elements.push({
+                  group: "edges",
+                  data: {
+                    source: firmware.device_type.id,
+                    target: firmware.id,
+                    label: "binding",
+                  },
+                  classes: "firmware",
+                });
+              } else {
+                // Connect subsequent firmware in the chain to the previous firmware.
+                elements.push({
+                  group: "edges",
+                  data: {
+                    source: previousFirmware.id,
+                    target: firmware.id,
+                    label: "updates",
+                  },
+                  classes: "firmware",
+                });
+              }
+              previousFirmware = firmware;
+            });
           });
         }
 
@@ -94,8 +106,8 @@ export default function DeviceTypeGraph({deviceTypeId, includeFirmware}) {
         const branchEdge = "#9CA3AF";
         const otherBranchEdge = "#F3F4F6";
         const activeDeviceTypeBorder = "#EC4899";
-        const firmwareCurrentNode = "#38BDF8";
-        const firmwareOldNode = "#BAE6FD";
+        const firmwareCurrentNode = "#14B8A6";
+        const firmwareOldNode = "#CCFBF1";
         const firmwareEdge = "#9CA3AF";
 
         const nodeInBranch = (el) => branchIds.includes(el.data("id"));
