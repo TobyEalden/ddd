@@ -5,7 +5,7 @@ import {supabase} from "../util/supabase-client";
 import {useSelect} from "../data/use-select";
 
 export default function ProfileKeySelect(props) {
-  // Don't reload device keys if `options` has been passed in props.
+  // Don&apos;t reload device keys if `options` has been passed in props.
   const selector = props.options
     ? () => Promise.resolve({data: props.options})
     : () => supabase.from("profile_key").select("*").neq("status", 99).order("name");

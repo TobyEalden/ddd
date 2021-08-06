@@ -35,7 +35,7 @@ export default function DeleteKey() {
       {keyData.error && <div>Error loading key: {keyData.error.message}</div>}
       {keyData.data && keyData.data.length > 0 && (
         <>
-          <PageHeading heading={`Confirm deletion of key &apos;${keyData.data[0].name}&apos;`} />
+          <PageHeading heading={`Confirm deletion of key '${keyData.data[0].name}'`} />
           <div className="text-lg p-8 m-8 bg-yellow-400 text-white rounded-md flex flex-row items-center">
             <i className="fad fa-triangle-exclamation mr-4 text-4xl" />
             Are you sure you want to delete key &apos;{keyData.data[0].name}&apos;?

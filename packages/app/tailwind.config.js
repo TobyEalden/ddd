@@ -1,5 +1,6 @@
 const colors = require("tailwindcss/colors");
 const primary = colors.cyan;
+const chrome = colors.violet;
 
 module.exports = {
   purge: ["./pages/**/*.{js,ts,jsx,tsx}", "./components/**/*.{js,ts,jsx,tsx}"],
@@ -39,6 +40,12 @@ module.exports = {
         info: {
           DEFAULT: primary[200],
           inverted: colors.black,
+        },
+        chrome: {
+          light: chrome[300],
+          DEFAULT: chrome[500],
+          dark: chrome[700],
+          inverted: colors.white,
         },
       },
     },

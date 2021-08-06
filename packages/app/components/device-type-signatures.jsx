@@ -12,12 +12,12 @@ export default function DeviceTypeSignatures({deviceTypeId}) {
   } else {
     return (
       <div>
-        {deviceType.data[0].device_type_signature.map((signature) => {
+        {deviceType.data[0].device_type_signature.map((signature, idx) => {
           return (
-            <div className="border-b-2 py-2">
+            <div key={idx} className="border-b-2 py-2">
               <i className="fad fa-fingerprint mr-2 text-primary-dark" />
-              Signed by '{signature.profile_key_public.profile.name}' at{" "}
-              {new Date(signature.signed_at).toLocaleString()} using key '{signature.profile_key_public.name}'
+              Signed by &apos;{signature.profile_key_public.profile.name}&apos; at{" "}
+              {new Date(signature.signed_at).toLocaleString()} using key &apos;{signature.profile_key_public.name}&apos;
             </div>
           );
         })}

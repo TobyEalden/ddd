@@ -24,7 +24,7 @@ export default function DetailFirmware() {
       {firmware.error && <ErrorPanel>ERROR! {firmware.error.message}</ErrorPanel>}
       {firmware.data && firmware.data.length > 0 && (
         <>
-          <PageHeading heading={`Details for '${firmware.data[0].name}'`} />
+          <PageHeading heading={`Firmware details for '${firmware.data[0].name}'`} />
           <div className="flex flex-col space-y-2 w-full p-2">
             <FormDetail label="Id" detail={firmware.data[0].id} pre={true} />
             <FormDetail label="Firmware" detail={firmware.data[0].name} />

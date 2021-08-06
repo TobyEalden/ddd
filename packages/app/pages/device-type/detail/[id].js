@@ -13,6 +13,7 @@ import SectionHeading from "../../../components/section-heading.jsx";
 import DeviceTypeSignatures from "../../../components/device-type-signatures.jsx";
 import DeviceTypeBindings from "../../../components/device-type-bindings.jsx";
 import DeviceTypeGraph from "../../../components/device-type-graph.jsx";
+import IconButton from "../../../components/icon-button.jsx";
 
 export default function DetailDeviceType() {
   const router = useRouter();
@@ -28,13 +29,8 @@ export default function DetailDeviceType() {
       {deviceType.error && <ErrorPanel>ERROR! {deviceType.error.message}</ErrorPanel>}
       {deviceType.data && deviceType.data.length > 0 && (
         <>
-          <PageHeading heading={`Details for '${deviceType.data[0].name}'`}>
-            <div
-              className="bg-paper rounded hover:bg-primary hover:text-primary-inverted p-2 text-primary-dark cursor-pointer"
-              onClick={toggleGraph}
-            >
-              <i className={`fad ${showGraph ? "fa-times" : "fa-diagram-project"}`} />
-            </div>
+          <PageHeading heading={`Device Type details for '${deviceType.data[0].name}'`}>
+            <IconButton route={`/device-type/detail/graph/${router.query.id}`} iconName={`fad fa-diagram-project`} />
           </PageHeading>
           {!showGraph && (
             <div className="flex flex-col space-y-2 w-full p-2">

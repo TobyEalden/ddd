@@ -1,4 +1,4 @@
-import {useDeviceTypeBindings, useInheritedDeviceTypeBindings} from "../data/device-type";
+import {useInheritedDeviceTypeBindings} from "../data/device-type";
 import ErrorPanel from "./error-panel";
 import InfoPanel from "./info-panel";
 import LoadingPanel from "./loading-panel";
@@ -19,8 +19,8 @@ export default function DeviceTypeBindings({deviceTypeId}) {
           <i className="fad fa-microchip mr-2 text-primary-dark" />
           {binding.name}
           <div>
-            Bound by '{binding.profile_key_public.profile.name}' at {new Date(binding.signed_at).toLocaleString()} using
-            key '{binding.profile_key_public.name}'
+            Bound by &apos;{binding.profile_key_public.profile.name}&apos; at{" "}
+            {new Date(binding.signed_at).toLocaleString()} using key &apos;{binding.profile_key_public.name}&apos;
           </div>
           {binding.device_type.id !== deviceTypeId && (
             <div className="text-sm">[INHERITED from {binding.device_type.name}]</div>

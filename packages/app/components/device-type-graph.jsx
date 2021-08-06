@@ -59,8 +59,8 @@ export default function DeviceTypeGraph({deviceTypeId, includeFirmware}) {
             firmwareBindingRoot[firmware.device_type.id].push(firmware);
           });
 
-          Object.keys(firmwareBindingRoot).forEach((deviceTypeId) => {
-            const deviceBindings = firmwareBindingRoot[deviceTypeId];
+          Object.keys(firmwareBindingRoot).forEach((firmwareDeviceTypeId) => {
+            const deviceBindings = firmwareBindingRoot[firmwareDeviceTypeId];
             deviceBindings.forEach((firmware, idx) => {
               elements.push({
                 group: "nodes",
@@ -68,7 +68,10 @@ export default function DeviceTypeGraph({deviceTypeId, includeFirmware}) {
                   id: firmware.id,
                   label: firmware.name,
                 },
-                classes: idx === deviceBindings.length - 1 ? "firmware-current" : "firmware-old",
+                classes:
+                  idx === deviceBindings.length - 1 && firmwareDeviceTypeId === deviceTypeId
+                    ? "firmware-current"
+                    : "firmware-old",
               });
 
               if (idx === 0) {
@@ -106,8 +109,9 @@ export default function DeviceTypeGraph({deviceTypeId, includeFirmware}) {
         const branchEdge = "#9CA3AF";
         const otherBranchEdge = "#F3F4F6";
         const activeDeviceTypeBorder = "#EC4899";
-        const firmwareCurrentNode = "#14B8A6";
-        const firmwareOldNode = "#CCFBF1";
+        const activeFirmwareBorder = "#FB923C";
+        const firmwareCurrentNode = "#FCD34D";
+        const firmwareOldNode = "#FEF3C7";
         const firmwareEdge = "#9CA3AF";
 
         const nodeInBranch = (el) => branchIds.includes(el.data("id"));
@@ -154,7 +158,7 @@ export default function DeviceTypeGraph({deviceTypeId, includeFirmware}) {
             selector: "node.firmware-current",
             style: {
               "background-color": firmwareCurrentNode,
-              "border-color": activeDeviceTypeBorder,
+              "border-color": activeFirmwareBorder,
               "border-width": 2,
             },
           },

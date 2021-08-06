@@ -1,6 +1,6 @@
-export default function MainCentered({children, ...props}) {
+export default function MainCentered({children, className, ...props}) {
   return (
-    <div className="flex-auto flex flex-col justify-center items-center p-2" {...props}>
+    <div className={`${className} flex-auto flex flex-col justify-center items-center p-2`} {...props}>
       {children}
     </div>
   );
