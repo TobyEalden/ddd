@@ -2,12 +2,13 @@ import {supabase} from "../util/supabase-client.js";
 import {useSelect} from "./use-select.js";
 
 function selectDeviceTypeGraph(deviceTypeId) {
-  // Fetch hierarchy involving the device type.
+  // Fetch all ancestors of the device type.
+  let ancestors;
   return supabase
     .from("device_type_hierarchy")
     .select("*")
     .eq("descendant_id", deviceTypeId)
-    .order("depth")
+    .order("ancestor_depth")
     .then((response) => {
       if (response.error) {
         return response;
@@ -15,6 +16,32 @@ function selectDeviceTypeGraph(deviceTypeId) {
       if (!response.data || response.data.length == 0) {
         return response;
       }
-      return;
+
+      ancestors = response.data;
+
+      // Fetch all descendants of the root device type.
+      const rootId = ancestors[0].ancestor_id;
+      return supabase
+        .from("device_type_hierarchy")
+        .select("*, device_type: descendant_id(*)")
+        .or(`ancestor_id.eq.${rootId}, descendant_id.eq.${rootId}`)
+        .order("depth");
+    })
+    .then((response) => {
+      if (response.error) {
+        return response;
+      }
+      return {
+        ...response,
+        data: {
+          ancestors,
+          root: response.data[0],
+          graph: response.data,
+        },
+      };
     });
+}
+
+export function useDeviceTypeGraph(deviceTypeId) {
+  return useSelect(() => selectDeviceTypeGraph(deviceTypeId));
 }

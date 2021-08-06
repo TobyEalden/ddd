@@ -40,7 +40,7 @@ export default function Firmwares() {
                   </Link>
                 );
               })}
-            {data.length === 0 && <span className="py-2">No firmwares found.</span>}
+            {data.length === 0 && <span className="p-2">No firmware found.</span>}
           </div>
         </>
       )}

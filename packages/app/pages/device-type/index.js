@@ -40,7 +40,7 @@ export default function DeviceTypes() {
                   </Link>
                 );
               })}
-            {data.length === 0 && <span className="py-2">No device types found.</span>}
+            {data.length === 0 && <span className="p-2">No device types found.</span>}
           </div>
         </>
       )}
