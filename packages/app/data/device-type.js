@@ -31,6 +31,27 @@ export function selectDeviceTypeBindings(id) {
     .neq("firmware.status", 99);
 }
 
+export function selectInheritedDeviceTypeBindings(id) {
+  return supabase
+    .from("device_type_hierarchy")
+    .select("ancestor_id")
+    .eq("descendant_id", id)
+    .then((response) => {
+      if (response.error) {
+        return response;
+      }
+      const deviceIds = response.data.map((d) => d.ancestor_id || id);
+      return supabase
+        .from("firmware_binding")
+        .select(
+          "signed_at, device_type(*, organisation(name)), firmware(*), profile_key_public(name, profile: profile_id(name))"
+        )
+        .in("device_type_id", deviceIds)
+        .neq("device_type.status", 99)
+        .neq("firmware.status", 99);
+    });
+}
+
 export function useDeviceType(id) {
   return useSelect(() => selectDeviceType(id));
 }
@@ -41,6 +62,31 @@ export function useDeviceTypeSignatures(id) {
 
 export function useDeviceTypeBindings(id) {
   return useSelect(() => selectDeviceTypeBindings(id));
+}
+
+export function useInheritedDeviceTypeBindings(id) {
+  return useSelect(() => selectInheritedDeviceTypeBindings(id));
+}
+
+export function useSubscribeDeviceTypeBindings(id) {
+  const [payload, setPayload] = useState({});
+
+  useEffect(() => {
+    const subscription = supabase
+      .from("firmware_binding")
+      .on("*", () => {
+        selectDeviceTypeBindings(id).then((response) => setPayload(response));
+      })
+      .subscribe();
+
+    selectDeviceTypeBindings(id).then((response) => setPayload(response));
+
+    return () => {
+      supabase.removeSubscription(subscription);
+    };
+  }, [id]);
+
+  return payload;
 }
 
 export function selectDeviceTypeWithHierarchy(id) {

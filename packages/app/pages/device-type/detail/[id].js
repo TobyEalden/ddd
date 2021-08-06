@@ -34,7 +34,7 @@ export default function DetailDeviceType() {
         console.log("building graph");
 
         // Build array of all device type ids that are in the branch of the current device type.
-        const branchIds = hierarchy.data.ancestors.map((a) => a.ancestor_id);
+        const branchIds = hierarchy.data.ancestors.map((a) => a.ancestor_id || a.descendant_id);
         branchIds.push(router.query.id);
 
         hierarchy.data.graph.forEach((treeNode, idx) => {
@@ -125,7 +125,7 @@ export default function DetailDeviceType() {
               className="bg-paper rounded hover:bg-primary hover:text-primary-inverted p-2 text-primary-dark cursor-pointer"
               onClick={toggleGraph}
             >
-              <i className="fad fa-diagram-project" />
+              <i className={`fad ${showGraph ? "fa-times" : "fa-diagram-project"}`} />
             </div>
           </PageHeading>
           {!showGraph && (

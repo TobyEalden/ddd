@@ -20,7 +20,7 @@ function selectDeviceTypeGraph(deviceTypeId) {
       ancestors = response.data;
 
       // Fetch all descendants of the root device type.
-      const rootId = ancestors[0].ancestor_id;
+      const rootId = ancestors[0].ancestor_id || ancestors[0].descendant_id;
       return supabase
         .from("device_type_hierarchy")
         .select("*, device_type: descendant_id(*)")
