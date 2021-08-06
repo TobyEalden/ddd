@@ -15,7 +15,7 @@ export default function DeviceTypeSignatures({deviceTypeId}) {
         {deviceType.data[0].device_type_signature.map((signature) => {
           return (
             <div className="border-b-2 py-2">
-              <i className="fad fa-fingerprint mr-2" />
+              <i className="fad fa-fingerprint mr-2 text-primary-dark" />
               Signed by '{signature.profile_key_public.profile.name}' at{" "}
               {new Date(signature.signed_at).toLocaleString()} using key '{signature.profile_key_public.name}'
             </div>

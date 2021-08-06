@@ -1,5 +1,6 @@
 import {useEffect, useState} from "react";
 
+import {createInheritance} from "./hierarchy-helper.js";
 import {supabase} from "../util/supabase-client.js";
 import {useSelect} from "./use-select.js";
 import {useSubscribe} from "./use-subscribe.js";
@@ -18,13 +19,13 @@ export function selectFirmwareSignatures(id) {
     .order("name", {foreignTable: "profile"});
 }
 
-export function selectFirmwareBindings(id) {
+export function selectFirmwareBindings(firmwareId) {
   return supabase
     .from("firmware_binding")
     .select(
       "signed_at, firmware(*), device_type(*, organisation(name)),  profile_key_public(name, profile: profile_id(name))"
     )
-    .eq("firmware_id", id)
+    .eq("firmware_id", firmwareId)
     .neq("device_type.status", 99)
     .neq("firmware.status", 99);
 }
@@ -37,8 +38,8 @@ export function useFirmwareSignatures(id) {
   return useSelect(() => selectFirmwareSignatures(id));
 }
 
-export function useFirmwareBindings(id) {
-  return useSelect(() => selectFirmwareBindings(id));
+export function useFirmwareBindings(firmwareId) {
+  return useSelect(() => selectFirmwareBindings(firmwareId));
 }
 
 export function selectFirmwareWithHierarchy(id) {
@@ -98,72 +99,7 @@ export function createFirmwareSignature(firmware_id, issuer_fingerprint) {
 }
 
 export function createFirmwareInheritance(parentId, childId, issuer_fingerprint) {
-  return supabase
-    .from("firmware_hierarchy")
-    .select()
-    .eq("descendant_id", parentId)
-    .order("depth")
-    .then((response) => {
-      if (response.error) {
-        return response;
-      }
-
-      const childNodes = [];
-      if (response.data.length === 0) {
-        childNodes.push({
-          ancestor_id: null,
-          descendant_id: childId,
-          parent_id: null,
-          depth: 1,
-          ancestor_depth: 0,
-          signed_by: issuer_fingerprint,
-        });
-      } else {
-        // Child depth is one deeper than parent depth.
-        const childDepth = response.data[0].depth + 1;
-        let leafAdded = false;
-        response.data.forEach((node) => {
-          if (!node.ancestor_id) {
-            // Ignore the root.
-            return;
-          }
-          if (node.ancestor_id === parentId && node.parent_id === parentId) {
-            // Add the leaf node.
-            childNodes.push({
-              ancestor_id: parentId,
-              descendant_id: childId,
-              parent_id: parentId,
-              depth: node.depth + 1,
-              ancestor_depth: node.depth,
-              signed_by: issuer_fingerprint,
-            });
-            leafAdded = true;
-          }
-
-          childNodes.push({
-            ancestor_id: node.ancestor_id,
-            descendant_id: childId,
-            parent_id: parentId,
-            depth: node.depth + 1,
-            ancestor_depth: node.ancestor_depth,
-            signed_by: node.signed_by,
-          });
-        });
-
-        if (!leafAdded) {
-          childNodes.push({
-            ancestor_id: parentId,
-            descendant_id: childId,
-            parent_id: parentId,
-            depth: childDepth,
-            ancestor_depth: childDepth - 1,
-            signed_by: issuer_fingerprint,
-          });
-        }
-      }
-
-      return supabase.from("firmware_hierarchy").insert(childNodes);
-    });
+  return createInheritance("firmware_hierarchy", parentId, childId, issuer_fingerprint);
 }
 
 export function createFirmware({issuer_fingerprint, parent_id, ...data}) {
