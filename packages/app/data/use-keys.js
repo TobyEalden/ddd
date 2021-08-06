@@ -4,7 +4,7 @@ import {supabase} from "../util/supabase-client.js";
 export default function useKeys() {
   // const fetcher = (select) => {
   //   return supabase
-  //     .from("actor_key")
+  //     .from("profile_key")
   //     .select(select)
   //     .then((response) => {
   //       if (response.error) {
@@ -15,9 +15,9 @@ export default function useKeys() {
   // };
   // return useSWR("*", fetcher);
 
-  return useSWR("actor_key", () => {
+  return useSWR("profile_key", () => {
     return supabase
-      .from("actor_key")
+      .from("profile_key")
       .select()
       .then((response) => {
         if (response.error) {

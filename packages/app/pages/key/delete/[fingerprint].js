@@ -5,7 +5,7 @@ import Link from "next/link";
 import {useSelect} from "../../../data/use-select.js";
 import {supabase} from "../../../util/supabase-client.js";
 import {useSuccessSnack, useErrorSnack} from "../../../util/snackbar.js";
-import {deleteKey} from "../../../data/actor_key.js";
+import {deleteKey} from "../../../data/profile-key.js";
 import PageHeading from "../../../components/page-heading.jsx";
 
 export default function DeleteKey() {
@@ -13,7 +13,7 @@ export default function DeleteKey() {
   const [errorSnack] = useErrorSnack();
   const router = useRouter();
   const keyData = useSelect(() =>
-    supabase.from("actor_key").select().eq("fingerprint", router.query.fingerprint).neq("status", 99)
+    supabase.from("profile_key").select().eq("fingerprint", router.query.fingerprint).neq("status", 99)
   );
 
   const handleDelete = () => {
@@ -35,7 +35,7 @@ export default function DeleteKey() {
       {keyData.error && <div>Error loading key: {keyData.error.message}</div>}
       {keyData.data && keyData.data.length > 0 && (
         <>
-          <PageHeading heading={`Confirm deletion of key &apos;${keyData.data[0].name}&apos;`} />
+          <PageHeading heading={`Confirm deletion of key '${keyData.data[0].name}'`} />
           <div className="text-lg p-8 m-8 bg-yellow-400 text-white rounded-md flex flex-row items-center">
             <i className="fad fa-triangle-exclamation mr-4 text-4xl" />
             Are you sure you want to delete key &apos;{keyData.data[0].name}&apos;?

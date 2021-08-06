@@ -10,7 +10,7 @@ import PageHeading from "../../../components/page-heading.jsx";
 export default function DetailKey() {
   const router = useRouter();
   const keyData = useSelect(() =>
-    supabase.from("actor_key").select().eq("fingerprint", router.query.fingerprint).neq("status", 99)
+    supabase.from("profile_key").select().eq("fingerprint", router.query.fingerprint).neq("status", 99)
   );
 
   return (

@@ -13,6 +13,7 @@
     "@supabase/supabase-js": "^1.21.0",
     "bs58": "^4.0.1",
     "cytoscape": "^3.19.0",
+    "cytoscape-dagre": "^2.3.2",
     "formik": "^2.2.9",
     "next": "11.0.1",
     "react": "17.0.2",

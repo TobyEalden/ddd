@@ -2,10 +2,10 @@ import ErrorPanel from "./error-panel.jsx";
 import FormSelect from "./form-select.jsx";
 import LoadingPanel from "./loading-panel.jsx";
 
-import {useSubscribeDeviceTypes} from "../data/device-type";
+import {useSubscribeFirmwares} from "../data/firmware.js";
 
-export default function DeviceTypeSelect(props) {
-  const {data, error, loading} = useSubscribeDeviceTypes();
+export default function FirmwareSelect(props) {
+  const {data, error, loading} = useSubscribeFirmwares();
 
   let content;
 

@@ -15,18 +15,8 @@ export const deviceTypeSchema = yup.object().shape({
     .string()
     .min(4, "Device type name must be at least 4 letters")
     .required("Please enter a name for the device type"),
-  // description: yup
-  //   .string()
-  //   .required("Please enter the description in JSON format")
-  //   .test("validate JSON", "Must be proper JSON", (value) => {
-  //     try {
-  //       JSON.parse(value);
-  //       return true;
-  //     } catch (err) {
-  //       return false;
-  //     }
-  //   }),
-  issuer_fingerprint: yup.string().required("Please select the issuing key").default(""),
+  description: yup.string(),
+  // issuer_fingerprint: yup.string().required("Please select the issuing key").default(""),
   organisation_id: yup.string().required("Please select the manufacturer").uuid().default(""),
   model: yup.string().default(""),
 });
@@ -53,4 +43,16 @@ export const organisationSchema = yup.object().shape({
       "Not a valid domain, e.g. 'microsoft.com'"
     )
     .default(""),
+});
+
+export const firmwareSchema = yup.object().shape({
+  name: yup
+    .string()
+    .min(4, "Firmware name must be at least 4 letters")
+    .required("Please enter a name for the firmware"),
+  description: yup.string().nullable(),
+  download_url: yup.string().url().default("").nullable(),
+  payload_number: yup.string().default("").nullable(),
+  version_number: yup.string().default("").nullable(),
+  organisation_id: yup.string().required("Please select the manufacturer").uuid().default(""),
 });

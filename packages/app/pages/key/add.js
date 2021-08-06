@@ -6,7 +6,7 @@ import Button from "../../components/button.jsx";
 import FormTextInput from "../../components/form-text-input.jsx";
 import MainFull from "../../components/main-full.jsx";
 
-import {createKey} from "../../data/actor_key.js";
+import {createKey} from "../../data/profile-key.js";
 import {generatePublicKeyToPEM, generatePrivateKeyToPEM} from "../../util/crypto-helper.js";
 import {keySchema} from "../../util/form-schema.js";
 import {useSnacks} from "../../util/snackbar.js";

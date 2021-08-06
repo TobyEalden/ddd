@@ -8,14 +8,14 @@ import MainFull from "../../../components/main-full.jsx";
 import PageHeading from "../../../components/page-heading.jsx";
 
 import {keySchema} from "../../../util/form-schema.js";
-import {saveKey, useActorKey} from "../../../data/actor_key.js";
+import {saveKey, useProfileKey} from "../../../data/profile-key.js";
 import {useRouter} from "next/router";
 import {useSnacks} from "../../../util/snackbar.js";
 
 export default function EditKey() {
   const [successSnack, errorSnack] = useSnacks();
   const router = useRouter();
-  const keyData = useActorKey(router.query.fingerprint);
+  const keyData = useProfileKey(router.query.fingerprint);
 
   const handleSubmit = (data) => {
     console.log(data);
