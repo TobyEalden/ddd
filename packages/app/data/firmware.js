@@ -23,7 +23,7 @@ export function selectFirmwareBindings(firmwareId) {
   return supabase
     .from("firmware_binding")
     .select(
-      "signed_at, firmware(*), device_type(*, organisation(name)),  profile_key_public(name, profile: profile_id(name))"
+      "signed_at, firmware(*), device_type(*, organisation:organisation_id(name)),  profile_key_public(name, profile: profile_id(name))"
     )
     .eq("firmware_id", firmwareId)
     .neq("device_type.status", 99)

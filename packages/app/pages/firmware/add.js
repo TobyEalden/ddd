@@ -58,7 +58,7 @@ export default function AddFirmware() {
         >
           {(props) => (
             <Form className="flex flex-col space-y-2 w-full p-2">
-              <FirmwareSelect label="Uprade to" name="parent_id" />
+              <FirmwareSelect label="If this is an uprade select the base firmware:" name="parent_id" />
               <FormTextInput label="Firmware name" name="name" />
               <FormTextInput label="Description" name="description" />
               <FormTextInput label="Download URL" name="download_url" />

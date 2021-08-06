@@ -41,7 +41,7 @@ export default function DeviceTypeGraph({deviceTypeId, includeFirmware}) {
               data: {
                 source: treeNode.parent_id,
                 target: treeNode.descendant_id,
-                label: "inherits",
+                label: "inherit",
               },
               classes: "device-type",
             });
@@ -49,82 +49,132 @@ export default function DeviceTypeGraph({deviceTypeId, includeFirmware}) {
         });
 
         if (includeFirmware) {
-          bindings.data.forEach((binding) => {
+          let previousFirmware = null;
+          bindings.data.forEach((firmware, idx) => {
             elements.push({
               group: "nodes",
               data: {
-                id: binding.firmware.id,
-                label: binding.firmware.name,
+                id: firmware.id,
+                label: firmware.name,
               },
-              classes: "firmware",
+              classes: idx === bindings.data.length - 1 ? "firmware-current" : "firmware-old",
             });
 
-            elements.push({
-              group: "edges",
-              data: {
-                source: binding.device_type.id,
-                target: binding.firmware.id,
-              },
-              classes: "firmware",
-            });
+            if (idx === 0) {
+              // Connect the first firmware in the chain to the device type.
+              elements.push({
+                group: "edges",
+                data: {
+                  source: firmware.device_type.id,
+                  target: firmware.id,
+                  label: "binding",
+                },
+                classes: "firmware",
+              });
+            } else {
+              // Connect subsequent firmware in the chain to the previous firmware.
+              elements.push({
+                group: "edges",
+                data: {
+                  source: previousFirmware.id,
+                  target: firmware.id,
+                  label: "updates",
+                },
+                classes: "firmware",
+              });
+            }
+            previousFirmware = firmware;
           });
         }
 
-        const immediateNode = "#22D3EE";
-        const immediateText = "#4B5563";
-        const siblingNode = "#CFFAFE";
-        const siblingText = "#9CA3AF";
-        const immediateEdge = "#9CA3AF";
-        const siblingEdge = "#F3F4F6";
-        const activeNodeBorder = "#EC4899";
+        const branchDeviceTypeNode = "#22D3EE";
+        const branchDeviceTypeText = "#4B5563";
+        const otherBranchDeviceTypeNode = "#CFFAFE";
+        const otherBranchDeviceTypeText = "#9CA3AF";
+        const branchEdge = "#9CA3AF";
+        const otherBranchEdge = "#F3F4F6";
+        const activeDeviceTypeBorder = "#EC4899";
+        const firmwareCurrentNode = "#38BDF8";
+        const firmwareOldNode = "#BAE6FD";
+        const firmwareEdge = "#9CA3AF";
 
         const nodeInBranch = (el) => branchIds.includes(el.data("id"));
         const edgeInBranch = (el) => branchIds.includes(el.data("target"));
 
         const stylesheet = [
+          // Catch-all for labels.
+          {
+            selector: "[label]",
+            style: {
+              "font-size": "6px",
+              color: otherBranchDeviceTypeText,
+              label: (el) => el.data("label"),
+            },
+          },
+          // Device Type nodes, colour is determined on whether or not the node is in a branch
+          // containing the current (active) Device Type.
           {
             selector: "node.device-type",
             style: {
-              "background-color": (el) => (nodeInBranch(el) ? immediateNode : siblingNode),
-              "border-color": activeNodeBorder,
+              "background-color": (el) => (nodeInBranch(el) ? branchDeviceTypeNode : otherBranchDeviceTypeNode),
+              "border-color": activeDeviceTypeBorder,
               "border-width": (el) => (el.data("id") === deviceTypeId ? 2 : 0),
             },
           },
+          // Device Type edges, non-branch edges are faded slightly.
           {
             selector: "edge.device-type",
             style: {
               width: 1,
-              "line-color": (el) => (edgeInBranch(el) ? immediateEdge : siblingEdge),
+              "line-color": (el) => (edgeInBranch(el) ? branchEdge : otherBranchEdge),
             },
           },
+          // Device Type labels, non-branch labels are faded slightly.
           {
             selector: "node.device-type[label]",
             style: {
               "font-size": "8px",
-              color: (el) => (nodeInBranch(el) ? immediateText : siblingText),
-              label: (el) => el.data("label"),
+              color: (el) => (nodeInBranch(el) ? branchDeviceTypeText : otherBranchDeviceTypeText),
             },
           },
+          // Most recent firmware binding nodes.
           {
-            selector: "node.firmware",
+            selector: "node.firmware-current",
             style: {
-              "background-color": "lime",
+              "background-color": firmwareCurrentNode,
+              "border-color": activeDeviceTypeBorder,
+              "border-width": 2,
             },
           },
+          // Older (overridden) firmware nodes.
+          {
+            selector: "node.firmware-old",
+            style: {
+              "background-color": firmwareOldNode,
+            },
+          },
+          // Any firmware edge.
           {
             selector: "edge.firmware",
             style: {
               width: 1,
-              "line-color": immediateEdge,
+              "line-color": firmwareEdge,
               "line-style": "dotted",
             },
           },
+          // Most recent firmware node labels.
           {
-            selector: "node.firmware[label]",
+            selector: "node.firmware-current[label]",
             style: {
               "font-size": "8px",
-              color: (el) => (nodeInBranch(el) ? immediateText : siblingText),
-              label: (el) => el.data("label"),
+              color: branchDeviceTypeText,
+            },
+          },
+          // Older (overridden) firmware node labels.
+          {
+            selector: "node.firmware-old[label]",
+            style: {
+              "font-size": "8px",
             },
           },
         ];

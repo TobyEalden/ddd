@@ -51,14 +51,7 @@ export function selectInheritedDeviceTypeBindings(deviceTypeId) {
 
       // Have the collection of device ancestors. Now lookup all firmware bindings for any of those devices.
       const deviceIds = response.data.map((d) => d.ancestor_id || deviceTypeId);
-      // return supabase
-      //   .from("firmware_hierarchy")
-      //   .select(
-      //     "firmware:descendant_id(*, firmware_binding(signed_at, device_type(*, organisation(name)), profile_key_public(name, profile: profile_id(name))))"
-      //   )
-      //   .in("device_type.id", deviceIds)
-      //   .neq("device_type.status", 99)
-      //   .neq("firmware.status", 99);
+      deviceIds.push(deviceTypeId);
       return supabase
         .from("inherited_firmware_binding")
         .select(
@@ -66,7 +59,8 @@ export function selectInheritedDeviceTypeBindings(deviceTypeId) {
         )
         .in("device_type_id", deviceIds)
         .neq("device_type.status", 99)
-        .neq("firmware.status", 99);
+        .neq("firmware.status", 99)
+        .order("depth", {ascending: true});
     });
 }
 
