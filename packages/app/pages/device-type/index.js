@@ -25,7 +25,9 @@ export default function DeviceTypes() {
                   <Link key={deviceType.id} href={`/device-type/detail/${deviceType.id}`}>
                     <div className="flex flex-col  hover:bg-primary hover:text-base-inverted border-b-2 text-base mb-1 p-2 cursor-pointer">
                       <div>
-                        <span className="font-bold">{deviceType.name}</span>
+                        <span className="font-bold">
+                          {deviceType.name} / {deviceType.model}
+                        </span>
                       </div>
                       {deviceType.description && (
                         <div>

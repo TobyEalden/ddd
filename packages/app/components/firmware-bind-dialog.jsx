@@ -47,7 +47,7 @@ export default function FirmwareBindDialog({deviceTypeId, firmwareId, ...props})
         >
           <Form>
             <FirmwareSelect label="Firmware" name="firmware_id" />
-            <DeviceTypeSelect label="Device Type" name="device_type_id" />
+            <DeviceTypeSelect autoFocus label="Device Type" name="device_type_id" />
             <ProfileKeySelect label="Signing key" name="signed_by" options={keys.data} />
             <div className="flex">
               <Button type="button" secondary onClick={props.onDismiss}>

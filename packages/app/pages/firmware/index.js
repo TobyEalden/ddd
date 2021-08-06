@@ -25,7 +25,9 @@ export default function Firmwares() {
                   <Link key={firmware.id} href={`/firmware/detail/${firmware.id}`}>
                     <div className="flex flex-col  hover:bg-primary hover:text-base-inverted border-b-2 text-base mb-1 p-2 cursor-pointer">
                       <div>
-                        <span className="font-bold">{firmware.name}</span>
+                        <span className="font-bold">
+                          {firmware.name} / {firmware.version_number}
+                        </span>
                       </div>
                       {firmware.description && (
                         <div>

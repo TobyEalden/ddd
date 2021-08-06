@@ -1,6 +1,8 @@
-import {useFirmwareSignatures} from "../data/firmware";
-import ErrorPanel from "./error-panel";
-import LoadingPanel from "./loading-panel";
+import {useFirmwareSignatures} from "../data/firmware.js";
+
+import IconButton from "./icon-button.jsx";
+import ErrorPanel from "./error-panel.jsx";
+import LoadingPanel from "./loading-panel.jsx";
 
 export default function FirmwareSignatures({firmwareId}) {
   const firmware = useFirmwareSignatures(firmwareId);
@@ -11,7 +13,7 @@ export default function FirmwareSignatures({firmwareId}) {
     return <ErrorPanel>{firmware.error.message}</ErrorPanel>;
   } else {
     return (
-      <div>
+      <>
         {firmware.data[0].firmware_signature.map((signature, idx) => {
           return (
             <div className="border-b-2 py-2" key={idx}>
@@ -21,7 +23,10 @@ export default function FirmwareSignatures({firmwareId}) {
             </div>
           );
         })}
-      </div>
+        <div className="flex justify-end">
+          <IconButton iconName="fad fa-signature-lock" label="add your signature" />
+        </div>
+      </>
     );
   }
 }

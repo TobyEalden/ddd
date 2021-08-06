@@ -1,6 +1,8 @@
-import {useDeviceTypeSignatures} from "../data/device-type";
-import ErrorPanel from "./error-panel";
-import LoadingPanel from "./loading-panel";
+import {useDeviceTypeSignatures} from "../data/device-type.js";
+
+import ErrorPanel from "./error-panel.jsx";
+import IconButton from "./icon-button.jsx";
+import LoadingPanel from "./loading-panel.jsx";
 
 export default function DeviceTypeSignatures({deviceTypeId}) {
   const deviceType = useDeviceTypeSignatures(deviceTypeId);
@@ -11,7 +13,7 @@ export default function DeviceTypeSignatures({deviceTypeId}) {
     return <ErrorPanel>{deviceType.error.message}</ErrorPanel>;
   } else {
     return (
-      <div>
+      <>
         {deviceType.data[0].device_type_signature.map((signature, idx) => {
           return (
             <div key={idx} className="border-b-2 py-2">
@@ -21,7 +23,10 @@ export default function DeviceTypeSignatures({deviceTypeId}) {
             </div>
           );
         })}
-      </div>
+        <div className="flex justify-end">
+          <IconButton iconName="fad fa-signature-lock" label="add your signature" />
+        </div>
+      </>
     );
   }
 }

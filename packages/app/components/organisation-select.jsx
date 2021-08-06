@@ -46,9 +46,11 @@ export default function OrganisationSelect({editable, ...props}) {
         />
         {editable && (
           <>
-            <Button type="button" secondary className="w-min" onClick={handleAddOrganisationToggle}>
-              Add&nbsp;Organisation
-            </Button>
+            <div className="flex justify-end">
+              <Button type="button" secondary className="w-min" onClick={handleAddOrganisationToggle}>
+                Add&nbsp;Organisation
+              </Button>
+            </div>
             <Dialog isOpen={addOrganisation} onDismiss={handleAddOrganisationToggle}>
               <DialogTitle title="New organisation" onClose={handleAddOrganisationToggle} />
               <OrganisationEdit onClose={handeEditClosed} />

@@ -45,37 +45,37 @@ export default function ProfileEdit() {
     return <ErrorPanel>{profileData.error.message}</ErrorPanel>;
   } else {
     return (
-      <Formik
-        initialValues={
-          profileData.data[0] || {
-            ...profileSchema.getDefaultFromShape(),
-            email: supabase.auth.user().email || "",
+      <>
+        <PageHeading heading={profileData.data.length ? "Your profile details" : "Please complete your profile data"} />
+        <Formik
+          initialValues={
+            profileData.data[0] || {
+              ...profileSchema.getDefaultFromShape(),
+              email: supabase.auth.user().email || "",
+            }
           }
-        }
-        validationSchema={profileSchema}
-        onSubmit={handleSave}
-      >
-        {(props) => (
-          <Form className="flex flex-col space-y-2 w-full p-2">
-            <PageHeading
-              heading={profileData.data.length ? "Your profile details" : "Please complete your profile data"}
-            />
-            <FormDetail label="Id" detail={props.values.id} pre={true} />
-            <FormDetail label="User id" detail={supabase.auth.user().id} pre={true} />
-            <FormTextInput label="Name" name="name" />
-            <FormTextInput label="Email [optional]" name="email" />
-            <OrganisationSelect label="Organisation" name="organisation_id" editable />
-            <FormTextInput label="Bio [optional]" name="bio" />
-            <div className="flex flex-row justify-between">
-              <div />
-              <Button type="submit">
-                <i className="fad fa-save mr-2" />
-                Save
-              </Button>
-            </div>
-          </Form>
-        )}
-      </Formik>
+          validationSchema={profileSchema}
+          onSubmit={handleSave}
+        >
+          {(props) => (
+            <Form className="flex flex-col space-y-2 w-full p-2">
+              <FormDetail label="Id" detail={props.values.id} pre={true} />
+              <FormDetail label="User id" detail={supabase.auth.user().id} pre={true} />
+              <FormTextInput label="Name" name="name" />
+              <FormTextInput label="Email [optional]" name="email" />
+              <OrganisationSelect label="Organisation" name="organisation_id" editable />
+              <FormTextInput label="Bio [optional]" name="bio" />
+              <div className="flex flex-row justify-between">
+                <div />
+                <Button type="submit">
+                  <i className="fad fa-save mr-2" />
+                  Save
+                </Button>
+              </div>
+            </Form>
+          )}
+        </Formik>
+      </>
     );
   }
 }

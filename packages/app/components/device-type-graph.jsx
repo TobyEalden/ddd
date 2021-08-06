@@ -104,11 +104,11 @@ export default function DeviceTypeGraph({deviceTypeId, includeFirmware}) {
 
         const branchDeviceTypeNode = "#22D3EE";
         const branchDeviceTypeText = "#4B5563";
-        const otherBranchDeviceTypeNode = "#CFFAFE";
+        const otherBranchDeviceTypeNode = "#A5F3FC";
         const otherBranchDeviceTypeText = "#9CA3AF";
         const branchEdge = "#9CA3AF";
         const otherBranchEdge = "#F3F4F6";
-        const activeDeviceTypeBorder = "#EC4899";
+        const activeDeviceTypeBorder = "#FA0000";
         const activeFirmwareBorder = "#FB923C";
         const firmwareCurrentNode = "#FCD34D";
         const firmwareOldNode = "#FEF3C7";

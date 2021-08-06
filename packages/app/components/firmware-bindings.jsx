@@ -1,7 +1,9 @@
-import {useFirmwareBindings} from "../data/firmware";
-import ErrorPanel from "./error-panel";
-import InfoPanel from "./info-panel";
-import LoadingPanel from "./loading-panel";
+import {useFirmwareBindings} from "../data/firmware.js";
+
+import ErrorPanel from "./error-panel.jsx";
+import IconButton from "./icon-button.jsx";
+import InfoPanel from "./info-panel.jsx";
+import LoadingPanel from "./loading-panel.jsx";
 
 export default function FirmwareBindings({firmwareId}) {
   const bindings = useFirmwareBindings(firmwareId);
@@ -15,10 +17,15 @@ export default function FirmwareBindings({firmwareId}) {
   } else {
     return bindings.data.map((binding, idx) => {
       return (
-        <div key={idx} className="border-b-2 py-2">
-          <i className="fad fa-link mr-2" />
-          Bound to &apos;{binding.device_type.name}&apos; by &apos;{binding.profile_key_public.profile.name}&apos; at{" "}
-          {new Date(binding.signed_at).toLocaleString()} using key &apos;{binding.profile_key_public.name}&apos;
+        <div key={idx} className="border-b-2 py-2 flex">
+          <div className="flex-grow">
+            <i className="fad fa-link mr-2" />
+            Bound to &apos;{binding.device_type.name}&apos; by &apos;{binding.profile_key_public.profile.name}&apos; at{" "}
+            {new Date(binding.signed_at).toLocaleString()} using key &apos;{binding.profile_key_public.name}&apos;
+          </div>{" "}
+          <div>
+            <IconButton iconName="fad fa-signature-lock" label="add your signature" />
+          </div>
         </div>
       );
     });
