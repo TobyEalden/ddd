@@ -9,7 +9,7 @@ import MainFull from "../../../components/main-full.jsx";
 import OrganisationSelect from "../../../components/organisation-select.jsx";
 import PageHeading from "../../../components/page-heading.jsx";
 
-import {firmwareSchema} from "../../../util/form-schema.js";
+import {firmwareSchema, validateSubmit} from "../../../util/form-schema.js";
 import {saveFirmware, useFirmware} from "../../../data/firmware.js";
 import {useSnacks} from "../../../util/snackbar.js";
 
@@ -43,7 +43,7 @@ export default function EditFirmware() {
           <PageHeading heading={`Edit firmware '${firmware.data[0].name}'`} />
           <Formik initialValues={firmware.data[0]} validationSchema={firmwareSchema}>
             {(props) => (
-              <Form className="flex flex-col space-y-2 w-full p-2">
+              <Form className="flex flex-col space-y-2 w-full p-2" onSubmit={() => validateSubmit(props)}>
                 <FormDetail label="Id" detail={props.values.id} pre={true} />
                 <FormTextInput label="Firmware name" name="name" />
                 <FormTextInput label="Description" name="description" />

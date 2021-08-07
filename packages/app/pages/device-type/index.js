@@ -35,7 +35,7 @@ export default function DeviceTypes() {
                         </div>
                       )}
                       <div className="flex flex-row items-center space-x-2">
-                        <i className="fad fa-id text-primary-dark" />
+                        <i className="fad fa-id-badge text-primary-dark" />
                         <span className="text-sm font-mono">{deviceType.id}</span>
                       </div>
                     </div>

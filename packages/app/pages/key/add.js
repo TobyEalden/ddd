@@ -8,7 +8,7 @@ import MainFull from "../../components/main-full.jsx";
 
 import {createKey} from "../../data/profile-key.js";
 import {generatePublicKeyToPEM, generatePrivateKeyToPEM} from "../../util/crypto-helper.js";
-import {keySchema} from "../../util/form-schema.js";
+import {keySchema, validateSubmit} from "../../util/form-schema.js";
 import {useSnacks} from "../../util/snackbar.js";
 
 export default function AddKey() {
@@ -61,7 +61,7 @@ export default function AddKey() {
       <p className="">Add a public key to your account.</p>
       <Formik initialValues={{}} onSubmit={handleSubmit} validationSchema={keySchema}>
         {(props) => (
-          <Form className="flex flex-col space-y-2 w-full p-2">
+          <Form className="flex flex-col space-y-2 w-full p-2" onSubmit={() => validateSubmit(props)}>
             <FormTextInput label="Key name" name="name" />
             <FormTextInput label="Description" name="description" />
             <FormTextInput label="Public key" name="public_key" />

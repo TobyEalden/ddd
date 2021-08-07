@@ -1,9 +1,9 @@
-import {Form, Formik} from "formik";
+import {Form, Formik, setNestedObjectValues} from "formik";
 
 import Button from "./button.jsx";
 import FormTextInput from "./form-text-input.jsx";
 
-import {organisationSchema} from "../util/form-schema.js";
+import {organisationSchema, validateSubmit} from "../util/form-schema.js";
 import {saveOrganisation} from "../data/organisation.js";
 import {useSnacks} from "../util/snackbar.js";
 
@@ -31,9 +31,9 @@ export default function OrganisationEdit({subjectId, onClose}) {
 
   return (
     <Formik initialValues={{}} onSubmit={onSave} validationSchema={organisationSchema}>
-      {({props}) => {
+      {(props) => {
         return (
-          <Form className="space-y-2">
+          <Form className="space-y-2" onSubmit={() => validateSubmit(props)}>
             <FormTextInput label="Organisation name" name="name" />
             <FormTextInput
               label="Organisation domain"
@@ -44,7 +44,9 @@ export default function OrganisationEdit({subjectId, onClose}) {
               <Button type="button" secondary={true} onClick={() => onClose()}>
                 Cancel
               </Button>
-              <Button type="submit">Save</Button>
+              <Button type="button" onClick={() => validateSubmit(props)}>
+                Save
+              </Button>
             </div>
           </Form>
         );

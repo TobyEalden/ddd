@@ -38,7 +38,7 @@ export default function FormSelect({label, ...props}) {
         onBlur={field.onBlur}
         onChange={setValue}
       />
-      {meta.error && <div className="text-error">{meta.error}</div>}
+      {meta.error && meta.touched && <div className="text-error">{meta.error}</div>}
     </div>
   );
 }

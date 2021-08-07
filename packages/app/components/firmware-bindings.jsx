@@ -22,7 +22,7 @@ export default function FirmwareBindings({firmwareId}) {
             <i className="fad fa-link mr-2" />
             Bound to &apos;{binding.device_type.name}&apos; by &apos;{binding.profile_key_public.profile.name}&apos; at{" "}
             {new Date(binding.signed_at).toLocaleString()} using key &apos;{binding.profile_key_public.name}&apos;
-          </div>{" "}
+          </div>
           <div>
             <IconButton iconName="fad fa-signature-lock" label="add your signature" />
           </div>

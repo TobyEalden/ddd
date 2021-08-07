@@ -1,4 +1,3 @@
-import {useState} from "react";
 import {Form, Formik} from "formik";
 
 import Button from "./button.jsx";
@@ -9,7 +8,7 @@ import LoadingPanel from "./loading-panel.jsx";
 import OrganisationSelect from "./organisation-select.jsx";
 import PageHeading from "./page-heading.jsx";
 
-import {profileSchema} from "../util/form-schema.js";
+import {profileSchema, validateSubmit} from "../util/form-schema.js";
 import {supabase} from "../util/supabase-client.js";
 import {saveProfile} from "../data/profile.js";
 import {useSelect} from "../data/use-select.js";
@@ -58,7 +57,7 @@ export default function ProfileEdit() {
           onSubmit={handleSave}
         >
           {(props) => (
-            <Form className="flex flex-col space-y-2 w-full p-2">
+            <Form className="flex flex-col space-y-2 w-full p-2" onSubmit={() => validateSubmit(props)}>
               <FormDetail label="Id" detail={props.values.id} pre={true} />
               <FormDetail label="User id" detail={supabase.auth.user().id} pre={true} />
               <FormTextInput label="Name" name="name" />

@@ -13,7 +13,7 @@ import OrganisationSelect from "../../components/organisation-select.jsx";
 import PageHeading from "../../components/page-heading.jsx";
 
 import {createDeviceType} from "../../data/device-type.js";
-import {deviceTypeSchema} from "../../util/form-schema.js";
+import {deviceTypeSchema, validateSubmit} from "../../util/form-schema.js";
 import {useProfileKeys} from "../../data/profile-key.js";
 import {useSnacks} from "../../util/snackbar.js";
 
@@ -44,7 +44,7 @@ export default function AddDeviceType() {
       {keys.error && <ErrorPanel>{keys.error.message}</ErrorPanel>}
       {keys.data && keys.data.length === 0 && (
         <ErrorPanel>
-          You need to add a key before you can continue.{" "}
+          You need to add a key before you can continue.
           <Link href="/key/add">
             <Button className="bg-error-inverted text-error">Add Key</Button>
           </Link>
@@ -57,7 +57,7 @@ export default function AddDeviceType() {
           validationSchema={deviceTypeSchema}
         >
           {(props) => (
-            <Form className="flex flex-col space-y-2 w-full p-2">
+            <Form className="flex flex-col space-y-2 w-full p-2" onSubmit={() => validateSubmit(props)}>
               <DeviceTypeSelect label="Inherit from" name="parent_id" />
               <FormTextInput label="Device type name" name="name" />
               <FormTextInput label="Description" name="description" />

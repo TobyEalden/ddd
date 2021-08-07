@@ -7,7 +7,7 @@ import FormDetail from "../../../components/form-detail.jsx";
 import MainFull from "../../../components/main-full.jsx";
 import PageHeading from "../../../components/page-heading.jsx";
 
-import {keySchema} from "../../../util/form-schema.js";
+import {keySchema, validateSubmit} from "../../../util/form-schema.js";
 import {saveKey, useProfileKey} from "../../../data/profile-key.js";
 import {useRouter} from "next/router";
 import {useSnacks} from "../../../util/snackbar.js";
@@ -39,7 +39,7 @@ export default function EditKey() {
           <PageHeading heading={`Edit key '${keyData.data[0].name}'`} />
           <Formik initialValues={keyData.data[0]} onSubmit={handleSubmit} validationSchema={keySchema}>
             {(props) => (
-              <Form className="flex flex-col space-y-2 w-full p-2">
+              <Form className="flex flex-col space-y-2 w-full p-2" onSubmit={() => validateSubmit(props)}>
                 <FormDetail label="Fingerprint" detail={props.values.fingerprint} pre={true} />
                 {/* <FormTextInput disabled={true} label="Public key" name="public_key" /> */}
                 <FormTextInput label="Key name" name="name" />

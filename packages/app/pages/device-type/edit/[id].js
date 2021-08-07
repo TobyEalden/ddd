@@ -9,7 +9,7 @@ import MainFull from "../../../components/main-full.jsx";
 import OrganisationSelect from "../../../components/organisation-select.jsx";
 import PageHeading from "../../../components/page-heading.jsx";
 
-import {deviceTypeSchema} from "../../../util/form-schema.js";
+import {deviceTypeSchema, validateSubmit} from "../../../util/form-schema.js";
 import {saveDeviceType, useDeviceType} from "../../../data/device-type.js";
 import {useSnacks} from "../../../util/snackbar.js";
 
@@ -43,7 +43,7 @@ export default function EditDeviceType() {
           <PageHeading heading={`Edit device type '${deviceType.data[0].name}'`} />
           <Formik initialValues={deviceType.data[0]} validationSchema={deviceTypeSchema}>
             {(props) => (
-              <Form className="flex flex-col space-y-2 w-full p-2">
+              <Form className="flex flex-col space-y-2 w-full p-2" onSubmit={() => validateSubmit(props)}>
                 <FormDetail label="Id" detail={props.values.id} pre={true} />
                 <FormTextInput label="Device type" name="name" />
                 <FormTextInput label="Model number" name="model" />

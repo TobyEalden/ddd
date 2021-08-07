@@ -7,7 +7,7 @@ export default function FormTextInput({label, ...props}) {
     <div className="flex flex-col space-y-1">
       <label htmlFor={props.name}>{label}</label>
       <Input {...field} {...props} value={field.value || ""} />
-      {meta.error && <div className="text-error">{meta.error}</div>}
+      {meta.error && meta.touched && <div className="text-error">{meta.error}</div>}
     </div>
   );
 }

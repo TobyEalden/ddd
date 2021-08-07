@@ -13,7 +13,7 @@ import OrganisationSelect from "../../components/organisation-select.jsx";
 import PageHeading from "../../components/page-heading.jsx";
 
 import {createFirmware} from "../../data/firmware.js";
-import {firmwareSchema} from "../../util/form-schema.js";
+import {firmwareSchema, validateSubmit} from "../../util/form-schema.js";
 import {useProfileKeys} from "../../data/profile-key.js";
 import {useSnacks} from "../../util/snackbar.js";
 
@@ -57,7 +57,7 @@ export default function AddFirmware() {
           validationSchema={firmwareSchema}
         >
           {(props) => (
-            <Form className="flex flex-col space-y-2 w-full p-2">
+            <Form className="flex flex-col space-y-2 w-full p-2" onSubmit={() => validateSubmit(props)}>
               <FirmwareSelect label="If this is an uprade select the base firmware:" name="parent_id" />
               <FormTextInput label="Firmware name" name="name" />
               <FormTextInput label="Description" name="description" />

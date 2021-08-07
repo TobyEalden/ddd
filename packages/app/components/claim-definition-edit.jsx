@@ -25,7 +25,7 @@ export default function ClaimDefinitionEdit({subjectId, onClose}) {
 
   return (
     <Formik initialValues={{}} onSubmit={onSave}>
-      {({props}) => {
+      {(props) => {
         return (
           <Form className="space-y-2">
             <FormTextInput label="Definition name" name="name" />

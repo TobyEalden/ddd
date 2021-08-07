@@ -54,7 +54,7 @@ export default function OrganisationSelect({editable, ...props}) {
             <Dialog isOpen={addOrganisation} onDismiss={handleAddOrganisationToggle}>
               <DialogTitle title="New organisation" onClose={handleAddOrganisationToggle} />
               <OrganisationEdit onClose={handeEditClosed} />
-            </Dialog>{" "}
+            </Dialog>
           </>
         )}
       </>
