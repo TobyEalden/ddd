@@ -1,4 +1,3 @@
-import {useState} from "react";
 import Link from "next/link";
 import {useRouter} from "next/router";
 
@@ -12,17 +11,11 @@ import {useDeviceType} from "../../../data/device-type.js";
 import SectionHeading from "../../../components/section-heading.jsx";
 import DeviceTypeSignatures from "../../../components/device-type-signatures.jsx";
 import DeviceTypeBindings from "../../../components/device-type-bindings.jsx";
-import DeviceTypeGraph from "../../../components/device-type-graph.jsx";
 import IconButton from "../../../components/icon-button.jsx";
 
 export default function DetailDeviceType() {
   const router = useRouter();
   const deviceType = useDeviceType(router.query.id);
-  const [showGraph, setShowGraph] = useState(false);
-
-  const toggleGraph = () => {
-    setShowGraph(!showGraph);
-  };
 
   return (
     <MainFull>
@@ -30,36 +23,37 @@ export default function DetailDeviceType() {
       {deviceType.data && deviceType.data.length > 0 && (
         <>
           <PageHeading heading={`Device Type details for '${deviceType.data[0].name}'`}>
-            <IconButton route={`/device-type/detail/graph/${router.query.id}`} iconName={`fad fa-diagram-project`} />
+            <IconButton
+              route={`/device-type/detail/graph/${router.query.id}`}
+              iconName={`fad fa-diagram-project`}
+              label="visualise"
+            />
           </PageHeading>
-          {!showGraph && (
-            <div className="flex flex-col space-y-2 w-full p-2">
-              <FormDetail label="Id" detail={deviceType.data[0].id} pre={true} />
-              <FormDetail label="Device type" detail={deviceType.data[0].name} />
-              <FormDetail label="Description" detail={deviceType.data[0].description || "n/a"} />
-              <FormDetail label="Model" detail={deviceType.data[0].model || "n/a"} />
-              <FormDetail label="Manufacturer" detail={deviceType.data[0].organisation.name || "n/a"} />
-              <FormDetail label="Timestamp" detail={deviceType.data[0].updated_at || Date.now()} pre={true} />
-              <SectionHeading heading="Signatures" />
-              <DeviceTypeSignatures deviceTypeId={router.query.id} />
-              <SectionHeading heading="Firmware Bindings" />
-              <DeviceTypeBindings deviceTypeId={router.query.id} />
-              <div className="flex flex-row justify-between">
-                <Link href="/device-type">
-                  <Button type="button" secondary={true}>
-                    Close
-                  </Button>
-                </Link>
-                <div className="flex-grow" />
-                <Link href={`/device-type/edit/${deviceType.data[0].id}`}>
-                  <Button type="button">
-                    <i className="fad fa-edit mr-2" /> Edit
-                  </Button>
-                </Link>
-              </div>
+          <div className="flex flex-col space-y-2 w-full p-2">
+            <FormDetail label="Id" detail={deviceType.data[0].id} pre={true} />
+            <FormDetail label="Device type" detail={deviceType.data[0].name} />
+            <FormDetail label="Description" detail={deviceType.data[0].description || "n/a"} />
+            <FormDetail label="Model" detail={deviceType.data[0].model || "n/a"} />
+            <FormDetail label="Manufacturer" detail={deviceType.data[0].organisation.name || "n/a"} />
+            <FormDetail label="Timestamp" detail={deviceType.data[0].updated_at || Date.now()} pre={true} />
+            <SectionHeading heading="Signatures" />
+            <DeviceTypeSignatures deviceTypeId={router.query.id} />
+            <SectionHeading heading="Firmware Bindings" />
+            <DeviceTypeBindings deviceTypeId={router.query.id} />
+            <div className="flex flex-row justify-between">
+              <Link href="/device-type">
+                <Button type="button" secondary={true}>
+                  Close
+                </Button>
+              </Link>
+              <div className="flex-grow" />
+              <Link href={`/device-type/edit/${deviceType.data[0].id}`}>
+                <Button type="button">
+                  <i className="fad fa-edit mr-2" /> Edit
+                </Button>
+              </Link>
             </div>
-          )}
-          {showGraph && <DeviceTypeGraph deviceTypeId={router.query.id} includeFirmware />}
+          </div>
         </>
       )}
     </MainFull>
