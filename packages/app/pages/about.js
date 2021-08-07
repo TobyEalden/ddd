@@ -24,7 +24,7 @@ export default function About() {
         In turn, this can lead to the better planning of risk mitigations, which are better targeted.
       </p>
 
-      <p className="mt-4">Each individual physical device has a conceptual "device type".</p>
+      <p className="mt-4">Each individual physical device has a conceptual &apos;device type&apos;.</p>
 
       <p className="mt-4">
         From a security perspective this device type can be empirically defined as as a cluster of simpler risk
