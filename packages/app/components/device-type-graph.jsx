@@ -135,6 +135,12 @@ export default function DeviceTypeGraph({deviceTypeId, includeFirmware}) {
               "background-color": (el) => (nodeInBranch(el) ? branchDeviceTypeNode : otherBranchDeviceTypeNode),
               "border-color": activeDeviceTypeBorder,
               "border-width": (el) => (el.data("id") === deviceTypeId ? 2 : 0),
+              "background-fill": "radial-gradient",
+              "background-gradient-stop-colors": (el) =>
+                nodeInBranch(el)
+                  ? `#0891B2 ${branchDeviceTypeNode} white`
+                  : `#22D3EE ${otherBranchDeviceTypeNode} white`,
+              "background-gradient-stop-positions": "15 50 70",
             },
           },
           // Device Type edges, non-branch edges are faded slightly.
@@ -160,6 +166,9 @@ export default function DeviceTypeGraph({deviceTypeId, includeFirmware}) {
               "background-color": firmwareCurrentNode,
               "border-color": activeFirmwareBorder,
               "border-width": 2,
+              "background-fill": "radial-gradient",
+              "background-gradient-stop-colors": `#D97706 ${firmwareCurrentNode} white`,
+              "background-gradient-stop-positions": "15 50 70",
             },
           },
           // Older (overridden) firmware nodes.
@@ -167,6 +176,9 @@ export default function DeviceTypeGraph({deviceTypeId, includeFirmware}) {
             selector: "node.firmware-old",
             style: {
               "background-color": firmwareOldNode,
+              "background-fill": "radial-gradient",
+              "background-gradient-stop-colors": `${firmwareOldNode} white`,
+              "background-gradient-stop-positions": "25 80",
             },
           },
           // Any firmware edge.
