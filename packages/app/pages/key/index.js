@@ -6,11 +6,10 @@ import LoadingPanel from "../../components/loading-panel.jsx";
 import MainFull from "../../components/main-full.jsx";
 import PageHeading from "../../components/page-heading.jsx";
 
-import {useSelect} from "../../data/use-select.js";
-import {supabase} from "../../util/supabase-client.js";
+import {useProfileKeys} from "../../data/profile-key.js";
 
 export default function Keys() {
-  const {data, error, loading} = useSelect(() => supabase.from("profile_key").select().neq("status", 99));
+  const {data, error, loading} = useProfileKeys();
 
   return (
     <MainFull>

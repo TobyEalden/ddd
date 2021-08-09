@@ -6,8 +6,8 @@ export function selectOrganisations(orderBy = "name") {
   return supabase.from("organisation").select().neq("status", 99).order(orderBy);
 }
 
-export function useOrganisations(orderBy = "name", reloadTrigger) {
-  return useSelect(() => selectOrganisations(orderBy), reloadTrigger);
+export function useOrganisations(orderBy = "name") {
+  return useSelect(selectOrganisations, [orderBy]);
 }
 
 export function useSubscribeOrganisations(orderBy = "name") {

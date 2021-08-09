@@ -33,7 +33,7 @@ export default function OrganisationEdit({subjectId, onClose}) {
     <Formik initialValues={{}} onSubmit={onSave} validationSchema={organisationSchema}>
       {(props) => {
         return (
-          <Form className="space-y-2" onSubmit={() => validateSubmit(props)}>
+          <Form className="space-y-2" onSubmit={(evt) => validateSubmit(evt, props)}>
             <FormTextInput label="Organisation name" name="name" />
             <FormTextInput
               label="Organisation domain"
@@ -44,7 +44,7 @@ export default function OrganisationEdit({subjectId, onClose}) {
               <Button type="button" secondary={true} onClick={() => onClose()}>
                 Cancel
               </Button>
-              <Button type="button" onClick={() => validateSubmit(props)}>
+              <Button type="button" onClick={(evt) => validateSubmit(evt, props)}>
                 Save
               </Button>
             </div>

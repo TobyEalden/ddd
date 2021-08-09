@@ -43,7 +43,7 @@ export default function EditFirmware() {
           <PageHeading heading={`Edit firmware '${firmware.data[0].name}'`} />
           <Formik initialValues={firmware.data[0]} validationSchema={firmwareSchema}>
             {(props) => (
-              <Form className="flex flex-col space-y-2 w-full p-2" onSubmit={() => validateSubmit(props)}>
+              <Form className="flex flex-col space-y-2 w-full p-2" onSubmit={(evt) => validateSubmit(evt, props)}>
                 <FormDetail label="Id" detail={props.values.id} pre={true} />
                 <FormTextInput label="Firmware name" name="name" />
                 <FormTextInput label="Description" name="description" />

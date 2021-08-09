@@ -1,4 +1,5 @@
-import {useEffect, useState} from "react";
+import {useEffect, useRef, useState} from "react";
+import {useRouter} from "next/router";
 import Cytoscape from "cytoscape";
 import dagre from "cytoscape-dagre";
 
@@ -10,9 +11,11 @@ import {useInheritedDeviceTypeBindings} from "../data/device-type.js";
 Cytoscape.use(dagre);
 
 export default function DeviceTypeGraph({deviceTypeId, includeFirmware}) {
+  const router = useRouter();
   const hierarchy = useDeviceTypeGraph(deviceTypeId);
   const bindings = useInheritedDeviceTypeBindings(deviceTypeId);
   const [graph, setGraph] = useState(null);
+  const cy = useRef();
 
   useEffect(() => {
     if (!hierarchy.loading && hierarchy.data && !bindings.loading && bindings.data) {
@@ -216,12 +219,19 @@ export default function DeviceTypeGraph({deviceTypeId, includeFirmware}) {
             userZoomingEnabled={true}
             stylesheet={stylesheet}
             layout={{name: "dagre"}}
+            cy={(cyRef) => {
+              cy.current = cyRef;
+              cy.current.on("tap", "node.device-type", function (evt) {
+                router.push(`/device-type/detail/graph/${evt.target.id()}`);
+              });
+            }}
           />
         );
+
         setGraph(rendered);
       });
     }
-  }, [hierarchy.loading, bindings.loading, includeFirmware]);
+  }, [hierarchy.loading, bindings.loading, includeFirmware, deviceTypeId]);
 
   return graph || <LoadingPanel>Loading...</LoadingPanel>;
 }

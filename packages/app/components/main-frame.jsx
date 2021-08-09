@@ -5,10 +5,10 @@ import Sidebar from "./sidebar.jsx";
 import TitleBar from "./titlebar.jsx";
 
 import {supabase} from "../util/supabase-client.js";
-import {useSelect} from "../data/use-select.js";
+import {useProfile} from "../data/profile.js";
 
 export default function MainFrame({children, session}) {
-  const authDevice = useSelect(() => supabase.from("profile").select().eq("user_id", supabase.auth.user().id));
+  const authDevice = useProfile(supabase.auth.user().id);
 
   if (authDevice.loading) {
     return <LoadingPanel>Loading profile...</LoadingPanel>;

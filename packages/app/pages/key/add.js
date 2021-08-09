@@ -61,7 +61,7 @@ export default function AddKey() {
       <p className="">Add a public key to your account.</p>
       <Formik initialValues={{}} onSubmit={handleSubmit} validationSchema={keySchema}>
         {(props) => (
-          <Form className="flex flex-col space-y-2 w-full p-2" onSubmit={() => validateSubmit(props)}>
+          <Form className="flex flex-col space-y-2 w-full p-2" onSubmit={(evt) => validateSubmit(evt, props)}>
             <FormTextInput label="Key name" name="name" />
             <FormTextInput label="Description" name="description" />
             <FormTextInput label="Public key" name="public_key" />

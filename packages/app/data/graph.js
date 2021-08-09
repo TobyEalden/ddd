@@ -1,9 +1,11 @@
+import {useMemo} from "react";
 import {supabase} from "../util/supabase-client.js";
 import {useSelect} from "./use-select.js";
 
 function selectDeviceTypeGraph(deviceTypeId) {
   // Fetch all ancestors of the device type.
   let ancestors;
+  console.log("selectDeviceTypeGraph for " + deviceTypeId);
   return supabase
     .from("device_type_hierarchy")
     .select("*")
@@ -43,5 +45,5 @@ function selectDeviceTypeGraph(deviceTypeId) {
 }
 
 export function useDeviceTypeGraph(deviceTypeId) {
-  return useSelect(() => selectDeviceTypeGraph(deviceTypeId));
+  return useSelect(selectDeviceTypeGraph, [deviceTypeId]);
 }

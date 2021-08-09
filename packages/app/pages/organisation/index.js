@@ -10,10 +10,10 @@ import MainFull from "../../components/main-full.jsx";
 import OrganisationEdit from "../../components/organisation-edit.jsx";
 import PageHeading from "../../components/page-heading.jsx";
 
-import {useOrganisations} from "../../data/organisation.js";
+import {useSubscribeOrganisations} from "../../data/organisation.js";
 
 export default function Organisations() {
-  const {data, error, loading} = useOrganisations();
+  const {data, error, loading} = useSubscribeOrganisations();
   const [addOrganisation, setAddOrganisation] = useState(false);
 
   const handleAddOrganisationToggle = () => {

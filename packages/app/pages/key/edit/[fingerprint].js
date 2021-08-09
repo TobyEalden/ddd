@@ -39,7 +39,7 @@ export default function EditKey() {
           <PageHeading heading={`Edit key '${keyData.data[0].name}'`} />
           <Formik initialValues={keyData.data[0]} onSubmit={handleSubmit} validationSchema={keySchema}>
             {(props) => (
-              <Form className="flex flex-col space-y-2 w-full p-2" onSubmit={() => validateSubmit(props)}>
+              <Form className="flex flex-col space-y-2 w-full p-2" onSubmit={(evt) => validateSubmit(evt, props)}>
                 <FormDetail label="Fingerprint" detail={props.values.fingerprint} pre={true} />
                 {/* <FormTextInput disabled={true} label="Public key" name="public_key" /> */}
                 <FormTextInput label="Key name" name="name" />

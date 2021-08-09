@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import {useEffect, useMemo, useState} from "react";
 
 import {createInheritance} from "./hierarchy-helper.js";
 import {supabase} from "../util/supabase-client.js";
@@ -40,6 +40,7 @@ export function selectDeviceTypeBindings(id) {
  */
 export function selectInheritedDeviceTypeBindings(deviceTypeId) {
   // Begin by fetching all ancestors of the given device type.
+  console.log("selectInheritedDeviceTypeBindings for " + deviceTypeId);
   return supabase
     .from("device_type_hierarchy")
     .select("ancestor_id")
@@ -66,19 +67,19 @@ export function selectInheritedDeviceTypeBindings(deviceTypeId) {
 }
 
 export function useDeviceType(id) {
-  return useSelect(() => selectDeviceType(id));
+  return useSelect(selectDeviceType, [id]);
 }
 
 export function useDeviceTypeSignatures(id) {
-  return useSelect(() => selectDeviceTypeSignatures(id));
+  return useSelect(selectDeviceTypeSignatures, [id]);
 }
 
 export function useDeviceTypeBindings(id) {
-  return useSelect(() => selectDeviceTypeBindings(id));
+  return useSelect(selectDeviceTypeBindings, [id]);
 }
 
 export function useInheritedDeviceTypeBindings(id) {
-  return useSelect(() => selectInheritedDeviceTypeBindings(id));
+  return useSelect(selectInheritedDeviceTypeBindings, [id]);
 }
 
 export function useSubscribeDeviceTypeBindings(id) {
@@ -111,7 +112,7 @@ export function selectDeviceTypeWithHierarchy(id) {
 }
 
 export function useDeviceTypeHierarchy(id) {
-  return useSelect(() => selectDeviceTypeWithHierarchy(id));
+  return useSelect(selectDeviceTypeWithHierarchy, [id]);
 }
 
 export function useSubscribeDeviceTypeWithClaims(deviceTypeName, id) {
@@ -140,9 +141,7 @@ export function selectDeviceTypes(orderBy = "name") {
 }
 
 export function useDeviceTypes(orderBy = "name") {
-  return useSelect(() => {
-    return selectDeviceTypes(orderBy);
-  });
+  return useSelect(selectDeviceTypes, [orderBy]);
 }
 
 export function useSubscribeDeviceTypes(orderBy = "name") {

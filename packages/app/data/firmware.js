@@ -31,15 +31,15 @@ export function selectFirmwareBindings(firmwareId) {
 }
 
 export function useFirmware(id) {
-  return useSelect(() => selectFirmware(id));
+  return useSelect(selectFirmware, [id]);
 }
 
 export function useFirmwareSignatures(id) {
-  return useSelect(() => selectFirmwareSignatures(id));
+  return useSelect(selectFirmwareSignatures, [id]);
 }
 
 export function useFirmwareBindings(firmwareId) {
-  return useSelect(() => selectFirmwareBindings(firmwareId));
+  return useSelect(selectFirmwareBindings, [firmwareId]);
 }
 
 export function selectFirmwareWithHierarchy(id) {
@@ -51,7 +51,7 @@ export function selectFirmwareWithHierarchy(id) {
 }
 
 export function useFirmwareHierarchy(id) {
-  return useSelect(() => selectFirmwareWithHierarchy(id));
+  return useSelect(selectFirmwareWithHierarchy, [id]);
 }
 
 export function useSubscribeFirmwareWithClaims(firmwareName, id) {
@@ -80,9 +80,7 @@ export function selectFirmwares(orderBy = "name") {
 }
 
 export function useFirmwares(orderBy = "name") {
-  return useSelect(() => {
-    return selectFirmwares(orderBy);
-  });
+  return useSelect(selectFirmwares, [orderBy]);
 }
 
 export function useSubscribeFirmwares(orderBy = "name") {

@@ -2,14 +2,20 @@ import {digestMessageBase58} from "../util/crypto-helper.js";
 import {supabase} from "../util/supabase-client.js";
 import {useSelect} from "./use-select.js";
 
+export function selectProfileKey(fingerprint) {
+  return supabase.from("profile_key").select().eq("fingerprint", fingerprint).neq("status", 99);
+}
+
 export function useProfileKey(fingerprint) {
-  return useSelect(() => {
-    return supabase.from("profile_key").select().eq("fingerprint", fingerprint).neq("status", 99);
-  });
+  return useSelect(selectProfileKey, [fingerprint]);
+}
+
+export function selectProfileKeys() {
+  return supabase.from("profile_key").select().neq("status", 99).order("name");
 }
 
 export function useProfileKeys() {
-  return useSelect(() => supabase.from("profile_key").select().neq("status", 99).order("name"));
+  return useSelect(selectProfileKeys, []);
 }
 
 export function createKey({name, description, public_key, private_key}) {

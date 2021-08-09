@@ -43,7 +43,7 @@ export default function EditDeviceType() {
           <PageHeading heading={`Edit device type '${deviceType.data[0].name}'`} />
           <Formik initialValues={deviceType.data[0]} validationSchema={deviceTypeSchema}>
             {(props) => (
-              <Form className="flex flex-col space-y-2 w-full p-2" onSubmit={() => validateSubmit(props)}>
+              <Form className="flex flex-col space-y-2 w-full p-2" onSubmit={(evt) => validateSubmit(evt, props)}>
                 <FormDetail label="Id" detail={props.values.id} pre={true} />
                 <FormTextInput label="Device type" name="name" />
                 <FormTextInput label="Model number" name="model" />

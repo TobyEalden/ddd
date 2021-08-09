@@ -57,7 +57,7 @@ export default function AddDeviceType() {
           validationSchema={deviceTypeSchema}
         >
           {(props) => (
-            <Form className="flex flex-col space-y-2 w-full p-2" onSubmit={() => validateSubmit(props)}>
+            <Form className="flex flex-col space-y-2 w-full p-2" onSubmit={(evt) => validateSubmit(evt, props)}>
               <DeviceTypeSelect label="Inherit from" name="parent_id" />
               <FormTextInput label="Device type name" name="name" />
               <FormTextInput label="Description" name="description" />

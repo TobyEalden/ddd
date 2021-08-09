@@ -2,19 +2,15 @@ import Button from "../../../components/button.jsx";
 import MainFull from "../../../components/main-full.jsx";
 import {useRouter} from "next/router";
 import Link from "next/link";
-import {useSelect} from "../../../data/use-select.js";
-import {supabase} from "../../../util/supabase-client.js";
 import {useSuccessSnack, useErrorSnack} from "../../../util/snackbar.js";
-import {deleteKey} from "../../../data/profile-key.js";
+import {deleteKey, useProfileKey} from "../../../data/profile-key.js";
 import PageHeading from "../../../components/page-heading.jsx";
 
 export default function DeleteKey() {
   const [successSnack] = useSuccessSnack();
   const [errorSnack] = useErrorSnack();
   const router = useRouter();
-  const keyData = useSelect(() =>
-    supabase.from("profile_key").select().eq("fingerprint", router.query.fingerprint).neq("status", 99)
-  );
+  const keyData = useProfileKey(router.query.fingerprint);
 
   const handleDelete = () => {
     deleteKey(keyData.data[0].fingerprint)

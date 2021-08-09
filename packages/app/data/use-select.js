@@ -1,18 +1,19 @@
 import {useEffect, useState} from "react";
 
-export function useSelect(selector, reloadTrigger) {
+export function useSelect(selector, deps) {
   const [response, setResponse] = useState({loading: true});
 
   useEffect(() => {
     console.log("running select");
-    return selector()
+    setResponse({loading: true});
+    return selector(...deps)
       .then((response) => {
         setResponse(response);
       })
       .catch((err) => {
         setResponse({error: err});
       });
-  }, [reloadTrigger]);
+  }, [selector, ...deps]);
 
   return response;
 }

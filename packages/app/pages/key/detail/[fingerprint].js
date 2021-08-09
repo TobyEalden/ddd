@@ -6,12 +6,11 @@ import {useSelect} from "../../../data/use-select.js";
 import {supabase} from "../../../util/supabase-client.js";
 import FormDetail from "../../../components/form-detail.jsx";
 import PageHeading from "../../../components/page-heading.jsx";
+import {useProfileKey} from "../../../data/profile-key.js";
 
 export default function DetailKey() {
   const router = useRouter();
-  const keyData = useSelect(() =>
-    supabase.from("profile_key").select().eq("fingerprint", router.query.fingerprint).neq("status", 99)
-  );
+  const keyData = useProfileKey(router.query.fingerprint);
 
   return (
     <MainFull>

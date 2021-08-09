@@ -1,12 +1,14 @@
 import {setNestedObjectValues} from "formik";
 import * as yup from "yup";
 
-export function validateSubmit({handleSubmit, setTouched, validateForm}) {
+export function validateSubmit(evt, {handleSubmit, setTouched, validateForm}) {
   return validateForm().then((errors) => {
     if (Object.keys(errors).length) {
       setTouched(setNestedObjectValues(errors, true));
+      evt.preventDefault();
+      return false;
     } else {
-      handleSubmit();
+      return handleSubmit(evt);
     }
   });
 }

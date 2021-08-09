@@ -10,13 +10,12 @@ import PageHeading from "./page-heading.jsx";
 
 import {profileSchema, validateSubmit} from "../util/form-schema.js";
 import {supabase} from "../util/supabase-client.js";
-import {saveProfile} from "../data/profile.js";
-import {useSelect} from "../data/use-select.js";
+import {saveProfile, useProfile} from "../data/profile.js";
 import {useSnacks} from "../util/snackbar.js";
 import {useRouter} from "next/router";
 
 export default function ProfileEdit() {
-  const profileData = useSelect(() => supabase.from("profile").select().eq("user_id", supabase.auth.user().id));
+  const profileData = useProfile(supabase.auth.user().id);
   const [successSnack, errorSnack] = useSnacks();
   const router = useRouter();
 
@@ -57,7 +56,7 @@ export default function ProfileEdit() {
           onSubmit={handleSave}
         >
           {(props) => (
-            <Form className="flex flex-col space-y-2 w-full p-2" onSubmit={() => validateSubmit(props)}>
+            <Form className="flex flex-col space-y-2 w-full p-2" onSubmit={(evt) => validateSubmit(evt, props)}>
               <FormDetail label="Id" detail={props.values.id} pre={true} />
               <FormDetail label="User id" detail={supabase.auth.user().id} pre={true} />
               <FormTextInput label="Name" name="name" />

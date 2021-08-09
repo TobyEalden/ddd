@@ -5,8 +5,8 @@ export function selectClaimDefinitions(orderBy = "name") {
   return supabase.from("claim_definition").select().neq("status", 99).order(orderBy);
 }
 
-export function useClaimDefinitions(orderBy = "name", reloadTrigger) {
-  return useSelect(() => selectClaimDefinitions(orderBy), reloadTrigger);
+export function useClaimDefinitions(orderBy = "name") {
+  return useSelect(selectClaimDefinitions, [orderBy]);
 }
 
 export function selectClaims(subjectId, orderBy = "name") {
@@ -14,7 +14,7 @@ export function selectClaims(subjectId, orderBy = "name") {
 }
 
 export function useClaims(subjectId, orderBy = "name") {
-  return useSelect(() => selectClaims(subjectId, orderBy));
+  return useSelect(selectClaims, [subjectId, orderBy]);
 }
 
 export function saveClaimDefinition(data) {
