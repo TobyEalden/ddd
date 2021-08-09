@@ -12,13 +12,16 @@ Cytoscape.use(dagre);
 
 export default function DeviceTypeGraph({deviceTypeId, includeFirmware}) {
   const router = useRouter();
-  const hierarchy = useDeviceTypeGraph(deviceTypeId);
-  const bindings = useInheritedDeviceTypeBindings(deviceTypeId);
+  const graphData = useDeviceTypeGraph(deviceTypeId);
+  // const bindings = useInheritedDeviceTypeBindings(deviceTypeId);
   const [graph, setGraph] = useState(null);
   const cy = useRef();
 
   useEffect(() => {
-    if (!hierarchy.loading && hierarchy.data && !bindings.loading && bindings.data) {
+    const hierarchy = graphData.hierarchy;
+    const bindings = graphData.bindings;
+
+    if (!graphData.loading && hierarchy.data && bindings.data) {
       import("react-cytoscapejs").then((component) => {
         const elements = [];
 
@@ -231,7 +234,7 @@ export default function DeviceTypeGraph({deviceTypeId, includeFirmware}) {
         setGraph(rendered);
       });
     }
-  }, [hierarchy.loading, bindings.loading, includeFirmware, deviceTypeId]);
+  }, [graphData.loading, includeFirmware, deviceTypeId]);
 
   return graph || <LoadingPanel>Loading...</LoadingPanel>;
 }

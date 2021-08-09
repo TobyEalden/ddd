@@ -1,6 +1,7 @@
-import {useMemo} from "react";
 import {supabase} from "../util/supabase-client.js";
 import {useSelect} from "./use-select.js";
+
+import {useInheritedDeviceTypeBindings} from "./device-type.js";
 
 function selectDeviceTypeGraph(deviceTypeId) {
   // Fetch all ancestors of the device type.
@@ -45,5 +46,12 @@ function selectDeviceTypeGraph(deviceTypeId) {
 }
 
 export function useDeviceTypeGraph(deviceTypeId) {
-  return useSelect(selectDeviceTypeGraph, [deviceTypeId]);
+  const hierarchy = useSelect(selectDeviceTypeGraph, [deviceTypeId]);
+  const bindings = useInheritedDeviceTypeBindings(deviceTypeId);
+
+  return {
+    loading: hierarchy.loading || bindings.loading,
+    hierarchy,
+    bindings,
+  };
 }
