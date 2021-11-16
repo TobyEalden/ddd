@@ -21,7 +21,7 @@ export default function DateTimeSelect({label, ...props}) {
       <DateTimePicker
         className="border-primary border-2 rounded"
         {...props}
-        value={field.value}
+        value={new Date(field.value)}
         onBlur={field.onBlur}
         onChange={setValue}
       />
