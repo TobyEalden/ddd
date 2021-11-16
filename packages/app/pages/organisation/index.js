@@ -31,7 +31,7 @@ export default function Organisations() {
             {data.length > 0 &&
               data.map((organisation) => {
                 return (
-                  <Link key={organisation.id} href="#">
+                  <Link passHref key={organisation.id} href="#">
                     <div className="flex flex-col  hover:bg-primary hover:text-base-inverted border-b-2 text-base mb-1 p-2 cursor-pointer">
                       <div>
                         <span className="font-bold">

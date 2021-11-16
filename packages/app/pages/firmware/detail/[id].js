@@ -40,7 +40,7 @@ export default function DetailFirmware() {
             <SectionHeading heading="Device Type Bindings" />
             <FirmwareBindings firmwareId={router.query.id} />
             <div className="flex flex-row justify-between">
-              <Link href="/firmware">
+              <Link passHref href="/firmware">
                 <Button type="button" secondary={true}>
                   Close
                 </Button>
@@ -49,7 +49,7 @@ export default function DetailFirmware() {
                 Add Device Type Binding
               </Button>
               <div className="flex-grow" />
-              <Link href={`/firmware/edit/${firmware.data[0].id}`}>
+              <Link passHref href={`/firmware/edit/${firmware.data[0].id}`}>
                 <Button type="button">
                   <i className="fad fa-edit mr-2" /> Edit
                 </Button>

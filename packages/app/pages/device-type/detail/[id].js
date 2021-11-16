@@ -61,13 +61,13 @@ export default function DetailDeviceType() {
             <SectionHeading heading="Firmware Bindings" />
             <DeviceTypeBindings deviceTypeId={router.query.id} />
             <div className="flex flex-row justify-between">
-              <Link href="/device-type">
+              <Link passHref href="/device-type">
                 <Button type="button" secondary={true}>
                   Close
                 </Button>
               </Link>
               <div className="flex-grow" />
-              <Link href={`/device-type/edit/${deviceType.data[0].id}`}>
+              <Link passHref href={`/device-type/edit/${deviceType.data[0].id}`}>
                 <Button type="button">
                   <i className="fad fa-edit mr-2" /> Edit
                 </Button>

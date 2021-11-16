@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export default function HomeButton({className, icon, label, route}) {
   return (
-    <Link href={route}>
+    <Link passHref href={route}>
       <div
         className={`${className} flex flex-col flex-shrink-0 p-4 m-4 items-center justify-center shadow-lg rounded-lg bg-paper hover:bg-primary hover:text-primary-inverted cursor-pointer`}
         style={{width: 200}}

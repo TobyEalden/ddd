@@ -29,13 +29,13 @@ export default function DetailFirmware() {
             <FormDetail label="Install date" detail={deviceInstallation.data[0].install_date || "n/a"} />
             <FormDetail label="Activation date" detail={deviceInstallation.data[0].active_date || Date.now()} />
             <div className="flex flex-row justify-between">
-              <Link href="/device-installation">
+              <Link passHref href="/device-installation">
                 <Button type="button" secondary={true}>
                   Close
                 </Button>
               </Link>
               <div className="flex-grow" />
-              <Link href={`/device-installation/edit/${deviceInstallation.data[0].id}`}>
+              <Link passHref href={`/device-installation/edit/${deviceInstallation.data[0].id}`}>
                 <Button type="button">
                   <i className="fad fa-edit mr-2" /> Edit
                 </Button>

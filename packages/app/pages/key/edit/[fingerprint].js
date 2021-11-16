@@ -45,7 +45,7 @@ export default function EditKey() {
                 <FormTextInput label="Key name" name="name" />
                 <FormTextInput label="Description" name="description" />
                 <div className="flex flex-row justify-between">
-                  <Link href="/key">
+                  <Link passHref href="/key">
                     <Button type="button" secondary={true}>
                       Close
                     </Button>

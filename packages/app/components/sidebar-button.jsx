@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export default function SidebarButton({iconName, label, route}) {
   return (
-    <Link href={route || "/#"}>
+    <Link passHref href={route || "/#"}>
       <div
         style={{width: 48}}
         className="p-2 text-center has-tooltip hover:bg-chrome-dark hover:text-chrome-inverted text-chrome-inverted rounded cursor-pointer"

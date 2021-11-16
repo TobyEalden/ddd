@@ -22,7 +22,7 @@ export default function Keys() {
             {data.length > 0 &&
               data.map((key) => {
                 return (
-                  <Link key={key.fingerprint} href={`/key/detail/${key.fingerprint}`}>
+                  <Link passHref key={key.fingerprint} href={`/key/detail/${key.fingerprint}`}>
                     <div className="flex flex-col  hover:bg-primary hover:text-base-inverted border-b-2 text-base mb-1 p-2 cursor-pointer">
                       <div>
                         <span className="font-bold">{key.name}</span>
@@ -45,7 +45,7 @@ export default function Keys() {
         </>
       )}
       <div className="flex flex-row justify-end mt-2">
-        <Link href="/key/add">
+        <Link passHref href="/key/add">
           <Button>
             <i className="fad fa-plus mr-2" />
             Add key

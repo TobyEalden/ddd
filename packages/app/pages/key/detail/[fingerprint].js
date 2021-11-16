@@ -25,18 +25,18 @@ export default function DetailKey() {
             <FormDetail label="Public key" detail={keyData.data[0].public_key} pre={true} />
             <FormDetail label="Timestamp" detail={keyData.data[0].updated_at} pre={true} />
             <div className="flex flex-row justify-between">
-              <Link href="/key">
+              <Link passHref href="/key">
                 <Button type="button" secondary={true}>
                   Close
                 </Button>
               </Link>
               <div className="flex-grow" />
-              <Link href={`/key/delete/${keyData.data[0].fingerprint}`}>
+              <Link passHref href={`/key/delete/${keyData.data[0].fingerprint}`}>
                 <Button type="button" className="mr-2" secondary={true}>
                   <i className="fad fa-trash mr-2" /> Delete
                 </Button>
               </Link>
-              <Link href={`/key/edit/${keyData.data[0].fingerprint}`}>
+              <Link passHref href={`/key/edit/${keyData.data[0].fingerprint}`}>
                 <Button type="button">
                   <i className="fad fa-edit mr-2" /> Edit
                 </Button>

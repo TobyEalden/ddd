@@ -45,7 +45,7 @@ export default function AddFirmware() {
       {keys.data && keys.data.length === 0 && (
         <ErrorPanel>
           You need to add a key before you can continue.{" "}
-          <Link href="/key/add">
+          <Link passHref href="/key/add">
             <Button className="bg-error-inverted text-error">Add Key</Button>
           </Link>
         </ErrorPanel>
@@ -68,7 +68,7 @@ export default function AddFirmware() {
               <OrganisationSelect label="Manufacturer" name="organisation_id" editable />
               <ProfileKeySelect label="Signing key" name="issuer_fingerprint" options={keys.data} />
               <div className="flex flex-row justify-between">
-                <Link href="/firmware">
+                <Link passHref href="/firmware">
                   <Button type="button" secondary={true} className="mr-2">
                     Close
                   </Button>

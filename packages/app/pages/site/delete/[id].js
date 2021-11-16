@@ -40,7 +40,7 @@ export default function DeleteSite() {
           </div>
           <div className="flex flex-col space-y-2 w-full p-2">
             <div className="flex flex-row justify-between">
-              <Link href="/site">
+              <Link passHref href="/site">
                 <Button type="button">Close</Button>
               </Link>
               <div className="flex-grow" />

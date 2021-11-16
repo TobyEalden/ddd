@@ -44,7 +44,7 @@ export default function DeleteDeviceInstallation() {
           </div>
           <div className="flex flex-col space-y-2 w-full p-2">
             <div className="flex flex-row justify-between">
-              <Link href="/device-installation">
+              <Link passHref href="/device-installation">
                 <Button type="button">Close</Button>
               </Link>
               <div className="flex-grow" />

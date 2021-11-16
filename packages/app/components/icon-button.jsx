@@ -14,7 +14,11 @@ export default function IconButton({iconName, label, onClick, route}) {
     </div>
   );
   if (route) {
-    return <Link href={route || "/#"}>{inner}</Link>;
+    return (
+      <Link passHref href={route || "/#"}>
+        {inner}
+      </Link>
+    );
   } else {
     return inner;
   }

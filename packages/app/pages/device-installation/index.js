@@ -22,7 +22,7 @@ export default function DeviceInstallations() {
             {data.length > 0 &&
               data.map((installation) => {
                 return (
-                  <Link key={installation.id} href={`/device-installation/detail/${installation.id}`}>
+                  <Link passHref key={installation.id} href={`/device-installation/detail/${installation.id}`}>
                     <div className="flex flex-col  hover:bg-primary hover:text-base-inverted border-b-2 text-base mb-1 p-2 cursor-pointer">
                       <div>
                         <span className="font-bold">
@@ -47,7 +47,7 @@ export default function DeviceInstallations() {
         </>
       )}
       <div className="flex flex-row justify-end mt-2">
-        <Link href="/device-installation/add">
+        <Link passHref href="/device-installation/add">
           <Button>
             <i className="fad fa-plus mr-2" />
             Add device installation

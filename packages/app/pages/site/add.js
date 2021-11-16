@@ -47,7 +47,7 @@ export default function AddSite() {
       {keys.data && keys.data.length === 0 && (
         <ErrorPanel>
           You need to add a key before you can continue.
-          <Link href="/key/add">
+          <Link passHref href="/key/add">
             <Button className="bg-error-inverted text-error">Add Key</Button>
           </Link>
         </ErrorPanel>
@@ -69,7 +69,7 @@ export default function AddSite() {
               <FormTextInput label="External IP (optional)" name="ip" />
               <FormTextInput label="Location" name="location" placeholder="Enter the postcode for the site" />
               <div className="flex flex-row justify-between">
-                <Link href="/site">
+                <Link passHref href="/site">
                   <Button type="button" secondary={true} className="mr-2">
                     Close
                   </Button>

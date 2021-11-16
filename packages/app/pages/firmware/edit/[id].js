@@ -53,12 +53,12 @@ export default function EditFirmware() {
                 <FormTextInput label="Installer URL" name="download_url" />
                 <OrganisationSelect label="Manufacturer" name="organisation_id" editable />
                 <div className="flex flex-row justify-between">
-                  <Link href="/firmware">
+                  <Link passHref href="/firmware">
                     <Button type="button" secondary={true}>
                       Close
                     </Button>
                   </Link>
-                  <Link href={`/firmware/delete/${firmware.data[0].id}`}>
+                  <Link passHref href={`/firmware/delete/${firmware.data[0].id}`}>
                     <Button type="button" className="ml-4" secondary={true}>
                       <i className="fad fa-trash mr-2" /> Delete
                     </Button>

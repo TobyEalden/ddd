@@ -45,7 +45,7 @@ export default function AddDeviceType() {
       {keys.data && keys.data.length === 0 && (
         <ErrorPanel>
           You need to add a key before you can continue.
-          <Link href="/key/add">
+          <Link passHref href="/key/add">
             <Button className="bg-error-inverted text-error">Add Key</Button>
           </Link>
         </ErrorPanel>
@@ -65,7 +65,7 @@ export default function AddDeviceType() {
               <OrganisationSelect label="Manufacturer" name="organisation_id" editable />
               <ProfileKeySelect label="Signing key" name="issuer_fingerprint" options={keys.data} />
               <div className="flex flex-row justify-between">
-                <Link href="/device-type">
+                <Link passHref href="/device-type">
                   <Button type="button" secondary={true} className="mr-2">
                     Close
                   </Button>

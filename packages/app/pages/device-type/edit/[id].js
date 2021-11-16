@@ -51,12 +51,12 @@ export default function EditDeviceType() {
                 <FormTextInput label="Manufacturer link" name="manufacturer_link" />
                 {/* <FormTextArea className="font-mono" label="Description" name="description" rows="5" /> */}
                 <div className="flex flex-row justify-between">
-                  <Link href="/device-type">
+                  <Link passHref href="/device-type">
                     <Button type="button" secondary={true}>
                       Close
                     </Button>
                   </Link>
-                  <Link href={`/device-type/delete/${deviceType.data[0].id}`}>
+                  <Link passHref href={`/device-type/delete/${deviceType.data[0].id}`}>
                     <Button type="button" className="ml-4" secondary={true}>
                       <i className="fad fa-trash mr-2" /> Delete
                     </Button>

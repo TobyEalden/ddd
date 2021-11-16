@@ -22,7 +22,7 @@ export default function Firmwares() {
             {data.length > 0 &&
               data.map((firmware) => {
                 return (
-                  <Link key={firmware.id} href={`/firmware/detail/${firmware.id}`}>
+                  <Link passHref key={firmware.id} href={`/firmware/detail/${firmware.id}`}>
                     <div className="flex flex-col  hover:bg-primary hover:text-base-inverted border-b-2 text-base mb-1 p-2 cursor-pointer">
                       <div>
                         <span className="font-bold">
@@ -47,7 +47,7 @@ export default function Firmwares() {
         </>
       )}
       <div className="flex flex-row justify-end mt-2">
-        <Link href="/firmware/add">
+        <Link passHref href="/firmware/add">
           <Button>
             <i className="fad fa-plus mr-2" />
             Add firmware

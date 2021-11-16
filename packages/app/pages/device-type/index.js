@@ -22,7 +22,7 @@ export default function DeviceTypes() {
             {data.length > 0 &&
               data.map((deviceType) => {
                 return (
-                  <Link key={deviceType.id} href={`/device-type/detail/${deviceType.id}`}>
+                  <Link passHref key={deviceType.id} href={`/device-type/detail/${deviceType.id}`}>
                     <div className="flex flex-col  hover:bg-primary hover:text-base-inverted border-b-2 text-base mb-1 p-2 cursor-pointer">
                       <div>
                         <span className="font-bold">
@@ -47,7 +47,7 @@ export default function DeviceTypes() {
         </>
       )}
       <div className="flex flex-row justify-end mt-2">
-        <Link href="/device-type/add">
+        <Link passHref href="/device-type/add">
           <Button>
             <i className="fad fa-plus mr-2" />
             Add device type

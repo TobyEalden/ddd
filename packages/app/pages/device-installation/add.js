@@ -46,7 +46,7 @@ export default function AddDeviceInstallation() {
       {keys.data && keys.data.length === 0 && (
         <ErrorPanel>
           You need to add a key before you can continue.{" "}
-          <Link href="/key/add">
+          <Link passHref href="/key/add">
             <Button className="bg-error-inverted text-error">Add Key</Button>
           </Link>
         </ErrorPanel>
@@ -66,7 +66,7 @@ export default function AddDeviceInstallation() {
               <DateTimeSelect label="Install date" name="install_date" disableClock />
               <DateTimeSelect label="Active date" name="active_date" disableClock />
               <div className="flex flex-row justify-between">
-                <Link href="/device-installation">
+                <Link passHref href="/device-installation">
                   <Button type="button" secondary={true} className="mr-2">
                     Close
                   </Button>

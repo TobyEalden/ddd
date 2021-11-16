@@ -67,7 +67,7 @@ export default function AddKey() {
             <FormTextInput label="Public key" name="public_key" />
             <FormTextInput label="Private key" name="private_key" />
             <div className="flex flex-row justify-between">
-              <Link href="/key">
+              <Link passHref href="/key">
                 <Button type="button" secondary={true} className="mr-2">
                   Close
                 </Button>

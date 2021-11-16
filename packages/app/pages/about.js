@@ -44,7 +44,7 @@ export default function About() {
         <li>Firmware variant: relates to the virtual software image layered on top of the physical hardware</li>
       </ul>
       <div className="flex justify-center p-4">
-        <Link href="/">
+        <Link passHref href="/">
           <Button type="button" className="px-20 py-4">
             OK
           </Button>

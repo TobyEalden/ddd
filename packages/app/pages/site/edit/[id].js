@@ -59,7 +59,7 @@ export default function EditSite() {
                 <FormTextInput label="External IP (optional)" name="ip" />
                 <FormTextInput label="Location" name="location" placeholder="Enter the postcode for the site" />
                 <div className="flex flex-row justify-between">
-                  <Link href="/site">
+                  <Link passHref href="/site">
                     <Button type="button" secondary={true} className="mr-2">
                       Close
                     </Button>

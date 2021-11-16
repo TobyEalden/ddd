@@ -33,13 +33,13 @@ export default function DetailSite() {
             <FormDetail label="Location" detail={site.data[0].location || "n/a"} />
             <FormDetail label="Timestamp" detail={site.data[0].updated_at || Date.now()} pre={true} />
             <div className="flex flex-row justify-between">
-              <Link href="/site">
+              <Link passHref href="/site">
                 <Button type="button" secondary={true}>
                   Close
                 </Button>
               </Link>
               <div className="flex-grow" />
-              <Link href={`/site/edit/${site.data[0].id}`}>
+              <Link passHref href={`/site/edit/${site.data[0].id}`}>
                 <Button type="button">
                   <i className="fad fa-edit mr-2" /> Edit
                 </Button>

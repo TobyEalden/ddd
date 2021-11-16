@@ -52,12 +52,12 @@ export default function EditDeviceInstallation() {
                 <DateTimeSelect label="Install date" name="install_date" disableClock />
                 <DateTimeSelect label="Active date" name="active_date" disableClock />
                 <div className="flex flex-row justify-between">
-                  <Link href="/device-installation">
+                  <Link passHref href="/device-installation">
                     <Button type="button" secondary={true}>
                       Close
                     </Button>
                   </Link>
-                  <Link href={`/device-installation/delete/${deviceInstallation.data[0].id}`}>
+                  <Link passHref href={`/device-installation/delete/${deviceInstallation.data[0].id}`}>
                     <Button type="button" className="ml-4" secondary={true}>
                       <i className="fad fa-trash mr-2" /> Delete
                     </Button>
