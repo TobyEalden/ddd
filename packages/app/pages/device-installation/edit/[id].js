@@ -3,60 +3,61 @@ import Link from "next/link";
 import {useRouter} from "next/router";
 
 import Button from "../../../components/button.jsx";
+import DateTimeSelect from "../../../components/date-time-picker.jsx";
+import DeviceTypeSelect from "../../../components/device-type-select.jsx";
+import ErrorPanel from "../../../components/error-panel.jsx";
 import FormTextInput from "../../../components/form-text-input.jsx";
 import FormDetail from "../../../components/form-detail.jsx";
 import MainFull from "../../../components/main-full.jsx";
-import OrganisationSelect from "../../../components/organisation-select.jsx";
+import SiteSelect from "../../../components/site-select.jsx";
 import PageHeading from "../../../components/page-heading.jsx";
 
-import {deviceTypeSchema, validateSubmit} from "../../../util/form-schema.js";
-import {saveDeviceType, useDeviceType} from "../../../data/device-type.js";
+import {deviceInstallationSchema, validateSubmit} from "../../../util/form-schema.js";
+import {saveDeviceInstallation, useDeviceInstallation} from "../../../data/device-installation.js";
 import {useSnacks} from "../../../util/snackbar.js";
 
-export default function EditDeviceType() {
+export default function EditDeviceInstallation() {
   const [successSnack, errorSnack] = useSnacks();
   const router = useRouter();
-  const deviceType = useDeviceType(router.query.id);
+  const deviceInstallation = useDeviceInstallation(router.query.id);
 
   const handleSubmit = (data) => {
-    if (data.description) {
-      data.description = JSON.stringify(JSON.parse(data.description), null, 2);
-    }
-    saveDeviceType(data)
+    saveDeviceInstallation(data)
       .then((response) => {
         if (response.error) {
           throw response.error;
         }
-        successSnack("Device type saved successfully.");
-        router.replace(`/device-type/detail/${data.id}`);
+        successSnack("Device installation saved successfully.");
+        router.replace(`/device-installation/detail/${data.id}`);
       })
       .catch((err) => {
-        errorSnack(`Failed to device type: ${err.message}`);
+        errorSnack(`Failed to save device installation: ${err.message}`);
       });
   };
 
   return (
     <MainFull>
-      {deviceType.error && <div>ERROR! {deviceType.error.message}</div>}
-      {deviceType.data && (
+      {deviceInstallation.error && <ErrorPanel>{deviceInstallation.error.message}</ErrorPanel>}
+      {deviceInstallation.data && (
         <>
-          <PageHeading heading={`Edit device type '${deviceType.data[0].name}'`} />
-          <Formik initialValues={deviceType.data[0]} validationSchema={deviceTypeSchema}>
+          <PageHeading heading={`Edit device installation '${deviceInstallation.data[0].serial_number}'`} />
+          <Formik initialValues={deviceInstallation.data[0]} validationSchema={deviceInstallationSchema}>
             {(props) => (
               <Form className="flex flex-col space-y-2 w-full p-2" onSubmit={(evt) => validateSubmit(evt, props)}>
                 <FormDetail label="Id" detail={props.values.id} pre={true} />
-                <FormTextInput label="Device type" name="name" />
-                <FormTextInput label="Model number" name="model" />
-                <OrganisationSelect label="Manufacturer" name="organisation_id" />
-                <FormTextInput label="Manufacturer link" name="manufacturer_link" />
-                {/* <FormTextArea className="font-mono" label="Description" name="description" rows="5" /> */}
+                <FormTextInput label="Serial number" name="serial_number" />
+                <FormTextInput label="Description (optional)" name="serial_extra" />
+                <DeviceTypeSelect label="Device type" name="device_type_id" />
+                <SiteSelect label="Site" name="site_id" />
+                <DateTimeSelect label="Install date" name="install_date" disableClock />
+                <DateTimeSelect label="Active date" name="active_date" disableClock />
                 <div className="flex flex-row justify-between">
-                  <Link href="/device-type">
+                  <Link href="/device-installation">
                     <Button type="button" secondary={true}>
                       Close
                     </Button>
                   </Link>
-                  <Link href={`/device-type/delete/${deviceType.data[0].id}`}>
+                  <Link href={`/device-installation/delete/${deviceInstallation.data[0].id}`}>
                     <Button type="button" className="ml-4" secondary={true}>
                       <i className="fad fa-trash mr-2" /> Delete
                     </Button>

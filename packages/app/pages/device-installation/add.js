@@ -2,44 +2,45 @@ import {Formik, Form} from "formik";
 import Link from "next/link";
 import {useRouter} from "next/router";
 
+import DateTimeSelect from "../../components/date-time-picker.jsx";
+import DeviceTypeSelect from "../../components/device-type-select.jsx";
 import ProfileKeySelect from "../../components/profile-key-select.jsx";
 import Button from "../../components/button.jsx";
-import FirmwareSelect from "../../components/firmware-select.jsx";
 import ErrorPanel from "../../components/error-panel.jsx";
 import FormTextInput from "../../components/form-text-input.jsx";
 import LoadingPanel from "../../components/loading-panel.jsx";
 import MainFull from "../../components/main-full.jsx";
-import OrganisationSelect from "../../components/organisation-select.jsx";
+import SiteSelect from "../../components/site-select.jsx";
 import PageHeading from "../../components/page-heading.jsx";
 
-import {createFirmware} from "../../data/firmware.js";
-import {firmwareSchema, validateSubmit} from "../../util/form-schema.js";
+import {saveDeviceInstallation} from "../../data/device-installation.js";
+import {deviceInstallationSchema, validateSubmit} from "../../util/form-schema.js";
 import {useProfileKeys} from "../../data/profile-key.js";
 import {useSnacks} from "../../util/snackbar.js";
 
-export default function AddFirmware() {
+export default function AddDeviceInstallation() {
   const [successSnack, errorSnack] = useSnacks();
   const router = useRouter();
   const keys = useProfileKeys();
 
   const handleSubmit = (data) => {
     console.log(data);
-    createFirmware(data)
+    saveDeviceInstallation(data)
       .then((response) => {
         if (response.error) {
           throw response.error;
         }
-        successSnack("Firmware saved successfully.");
-        router.replace("/firmware");
+        successSnack("Device installation saved successfully.");
+        router.replace("/device-installation");
       })
       .catch((err) => {
-        errorSnack(`Failed to save firmware: ${err.message}`);
+        errorSnack(`Failed to save device installation: ${err.message}`);
       });
   };
 
   return (
     <MainFull>
-      <PageHeading heading="Add a firmware" />
+      <PageHeading heading="Add a device installation" />
       {keys.loading && <LoadingPanel>Loading...</LoadingPanel>}
       {keys.error && <ErrorPanel>{keys.error.message}</ErrorPanel>}
       {keys.data && keys.data.length === 0 && (
@@ -52,23 +53,20 @@ export default function AddFirmware() {
       )}
       {keys.data && keys.data.length > 0 && (
         <Formik
-          initialValues={{issuer_fingerprint: keys.data[0].fingerprint}}
+          initialValues={{install_date: new Date(), active_date: new Date()}}
           onSubmit={handleSubmit}
-          validationSchema={firmwareSchema}
+          validationSchema={deviceInstallationSchema}
         >
           {(props) => (
             <Form className="flex flex-col space-y-2 w-full p-2" onSubmit={(evt) => validateSubmit(evt, props)}>
-              <FirmwareSelect label="If this is an uprade select the base firmware:" name="parent_id" />
-              <FormTextInput label="Firmware name" name="name" />
-              <FormTextInput label="Description" name="description" />
-              <FormTextInput label="Payload URL" name="payload_url" />
-              <FormTextInput label="Payload hash" name="payload_hash" />
-              <FormTextInput label="Version number" name="version_number" />
-              <FormTextInput label="Installer URL" name="download_url" />
-              <OrganisationSelect label="Manufacturer" name="organisation_id" editable />
-              <ProfileKeySelect label="Signing key" name="issuer_fingerprint" options={keys.data} />
+              <FormTextInput label="Serial number" name="serial_number" />
+              <FormTextInput label="Description (optional)" name="serial_extra" />
+              <DeviceTypeSelect label="Device type" name="device_type_id" />
+              <SiteSelect label="Site" name="site_id" />
+              <DateTimeSelect label="Install date" name="install_date" disableClock />
+              <DateTimeSelect label="Active date" name="active_date" disableClock />
               <div className="flex flex-row justify-between">
-                <Link href="/firmware">
+                <Link href="/device-installation">
                   <Button type="button" secondary={true} className="mr-2">
                     Close
                   </Button>

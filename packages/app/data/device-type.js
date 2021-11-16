@@ -191,6 +191,9 @@ export function getDeviceType(id) {
   return supabase.from("device_type").select().eq("id", id).neq("status", 99);
 }
 
-export function saveDeviceType({id, name, description}) {
-  return supabase.from("device_type").update({name, description, updated_at: new Date()}).eq("id", id);
+export function saveDeviceType({id, name, description, manufacturer_link}) {
+  return supabase
+    .from("device_type")
+    .update({name, description, manufacturer_link, updated_at: new Date()})
+    .eq("id", id);
 }

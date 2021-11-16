@@ -130,14 +130,24 @@ export function getFirmware(id) {
   return supabase.from("firmware").select().eq("id", id).neq("status", 99);
 }
 
-export function saveFirmware({id, name, description, payload_number, version_number, organisation_id, download_url}) {
+export function saveFirmware({
+  id,
+  name,
+  description,
+  payload_url,
+  payload_hash,
+  version_number,
+  organisation_id,
+  download_url,
+}) {
   return supabase
     .from("firmware")
     .update({
       id,
       name,
       description,
-      payload_number,
+      payload_url,
+      payload_hash,
       version_number,
       organisation_id,
       download_url,

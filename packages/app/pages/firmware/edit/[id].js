@@ -47,9 +47,10 @@ export default function EditFirmware() {
                 <FormDetail label="Id" detail={props.values.id} pre={true} />
                 <FormTextInput label="Firmware name" name="name" />
                 <FormTextInput label="Description" name="description" />
-                <FormTextInput label="Download URL" name="download_url" />
-                <FormTextInput label="Payload number" name="payload_number" />
+                <FormTextInput label="Payload URL" name="payload_url" />
+                <FormTextInput label="Payload hash" name="payload_hash" />
                 <FormTextInput label="Version number" name="version_number" />
+                <FormTextInput label="Installer URL" name="download_url" />
                 <OrganisationSelect label="Manufacturer" name="organisation_id" editable />
                 <div className="flex flex-row justify-between">
                   <Link href="/firmware">

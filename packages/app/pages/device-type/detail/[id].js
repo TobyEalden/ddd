@@ -1,5 +1,6 @@
 import Link from "next/link";
 import {useRouter} from "next/router";
+import getConfig from "next/config";
 
 import Button from "../../../components/button.jsx";
 import MainFull from "../../../components/main-full.jsx";
@@ -13,9 +14,19 @@ import DeviceTypeSignatures from "../../../components/device-type-signatures.jsx
 import DeviceTypeBindings from "../../../components/device-type-bindings.jsx";
 import IconButton from "../../../components/icon-button.jsx";
 
+// Only holds serverRuntimeConfig and publicRuntimeConfig
+const {publicRuntimeConfig} = getConfig();
+
+// Will be available on both server-side and client-side
+console.log(publicRuntimeConfig.baseUrl);
 export default function DetailDeviceType() {
   const router = useRouter();
   const deviceType = useDeviceType(router.query.id);
+
+  let infoURL;
+  if (deviceType.data && deviceType.data.length > 0) {
+    infoURL = `${publicRuntimeConfig.baseUrl}/api/device-type/info/${deviceType.data[0].id}`;
+  }
 
   return (
     <MainFull>
@@ -31,10 +42,19 @@ export default function DetailDeviceType() {
           </PageHeading>
           <div className="flex flex-col space-y-2 w-full p-2">
             <FormDetail label="Id" detail={deviceType.data[0].id} pre={true} />
+            <FormDetail label="Id link" detail={<a href={infoURL}>{infoURL}</a>} />
             <FormDetail label="Device type" detail={deviceType.data[0].name} />
             <FormDetail label="Description" detail={deviceType.data[0].description || "n/a"} />
             <FormDetail label="Model" detail={deviceType.data[0].model || "n/a"} />
             <FormDetail label="Manufacturer" detail={deviceType.data[0].organisation.name || "n/a"} />
+            <FormDetail
+              label="Manufacturer link"
+              detail={
+                <a href={deviceType.data[0].manufacturer_link || "#"}>
+                  {deviceType.data[0].manufacturer_link || "n/a"}
+                </a>
+              }
+            />
             <FormDetail label="Timestamp" detail={deviceType.data[0].updated_at || Date.now()} pre={true} />
             <SectionHeading heading="Signatures" />
             <DeviceTypeSignatures deviceTypeId={router.query.id} />
@@ -59,3 +79,7 @@ export default function DetailDeviceType() {
     </MainFull>
   );
 }
+
+DetailDeviceType.getInitialProps = async () => {
+  return {};
+};

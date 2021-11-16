@@ -29,9 +29,10 @@ export default function DetailFirmware() {
             <FormDetail label="Id" detail={firmware.data[0].id} pre={true} />
             <FormDetail label="Firmware" detail={firmware.data[0].name} />
             <FormDetail label="Description" detail={firmware.data[0].description || "n/a"} />
-            <FormDetail label="Download URL" detail={firmware.data[0].download_url || "n/a"} />
-            <FormDetail label="Payload number" detail={firmware.data[0].payload_number || "n/a"} />
+            <FormDetail label="Payload URL" detail={firmware.data[0].payload_url || "n/a"} />
+            <FormDetail label="Payload hash" detail={firmware.data[0].payload_hash || "n/a"} />
             <FormDetail label="Version number" detail={firmware.data[0].version_number || "n/a"} />
+            <FormDetail label="Installer URL" detail={firmware.data[0].download_url || "n/a"} />
             <FormDetail label="Manufacturer" detail={firmware.data[0].organisation.name || "n/a"} />
             <FormDetail label="Timestamp" detail={firmware.data[0].updated_at || Date.now()} pre={true} />
             <SectionHeading heading="Signatures" />
