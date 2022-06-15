@@ -1,4 +1,4 @@
-import {useSnackbar} from "react-simple-snackbar";
+import { useSnackbar } from "react-simple-snackbar";
 
 export function useSuccessSnack() {
   return useSnackbar({

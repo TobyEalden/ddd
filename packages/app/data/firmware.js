@@ -1,22 +1,28 @@
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 
-import {createInheritance} from "./hierarchy-helper.js";
-import {supabase} from "../util/supabase-client.js";
-import {useSelect} from "./use-select.js";
-import {useSubscribe} from "./use-subscribe.js";
+import { createInheritance } from "./hierarchy-helper.js";
+import { supabase } from "../util/supabase-client.js";
+import { useSelect } from "./use-select.js";
+import { useSubscribe } from "./use-subscribe.js";
 
 export function selectFirmware(id) {
-  return supabase.from("firmware").select("*, organisation(name)").eq("id", id).neq("status", 99);
+  return supabase
+    .from("firmware")
+    .select("*, organisation(name)")
+    .eq("id", id)
+    .neq("status", 99);
 }
 
 export function selectFirmwareSignatures(id) {
   return supabase
     .from("firmware")
-    .select("*, firmware_signature(signed_at, profile_key_public(name, profile: profile_id(name))), organisation(name)")
+    .select(
+      "*, firmware_signature(signed_at, profile_key_public(name, profile: profile_id(name))), organisation(name)"
+    )
     .eq("id", id)
     .neq("status", 99)
-    .order("signed_at", {foreignTable: "firmware_signature"})
-    .order("name", {foreignTable: "profile"});
+    .order("signed_at", { foreignTable: "firmware_signature" })
+    .order("name", { foreignTable: "firmware_signature.profile_key_public" });
 }
 
 export function selectFirmwareBindings(firmwareId) {
@@ -96,11 +102,20 @@ export function createFirmwareSignature(firmware_id, issuer_fingerprint) {
   ]);
 }
 
-export function createFirmwareInheritance(parentId, childId, issuer_fingerprint) {
-  return createInheritance("firmware_hierarchy", parentId, childId, issuer_fingerprint);
+export function createFirmwareInheritance(
+  parentId,
+  childId,
+  issuer_fingerprint
+) {
+  return createInheritance(
+    "firmware_hierarchy",
+    parentId,
+    childId,
+    issuer_fingerprint
+  );
 }
 
-export function createFirmware({issuer_fingerprint, parent_id, ...data}) {
+export function createFirmware({ issuer_fingerprint, parent_id, ...data }) {
   return supabase
     .from("firmware")
     .insert(data)
@@ -123,7 +138,7 @@ export function createFirmware({issuer_fingerprint, parent_id, ...data}) {
 }
 
 export function deleteFirmware(id) {
-  return supabase.from("firmware").update({status: 99}).eq("id", id);
+  return supabase.from("firmware").update({ status: 99 }).eq("id", id);
 }
 
 export function getFirmware(id) {
@@ -156,7 +171,11 @@ export function saveFirmware({
     .eq("id", id);
 }
 
-export function addFirmwareBinding(firmware_id, device_type_id, profile_key_id) {
+export function addFirmwareBinding(
+  firmware_id,
+  device_type_id,
+  profile_key_id
+) {
   return supabase.from("firmware_binding").insert({
     firmware_id,
     device_type_id,

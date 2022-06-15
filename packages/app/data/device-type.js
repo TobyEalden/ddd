@@ -1,12 +1,16 @@
-import {useEffect, useMemo, useState} from "react";
+import { useEffect, useMemo, useState } from "react";
 
-import {createInheritance} from "./hierarchy-helper.js";
-import {supabase} from "../util/supabase-client.js";
-import {useSelect} from "./use-select.js";
-import {useSubscribe} from "./use-subscribe.js";
+import { createInheritance } from "./hierarchy-helper.js";
+import { supabase } from "../util/supabase-client.js";
+import { useSelect } from "./use-select.js";
+import { useSubscribe } from "./use-subscribe.js";
 
 export function selectDeviceType(id) {
-  return supabase.from("device_type").select("*, organisation:organisation_id(name)").eq("id", id).neq("status", 99);
+  return supabase
+    .from("device_type")
+    .select("*, organisation:organisation_id(name)")
+    .eq("id", id)
+    .neq("status", 99);
 }
 
 export function selectDeviceTypeSignatures(id) {
@@ -17,8 +21,10 @@ export function selectDeviceTypeSignatures(id) {
     )
     .eq("id", id)
     .neq("status", 99)
-    .order("signed_at", {foreignTable: "device_type_signature"})
-    .order("name", {foreignTable: "profile"});
+    .order("signed_at", { foreignTable: "device_type_signature" })
+    .order("name", {
+      foreignTable: "device_type_signature.profile_key_public",
+    });
 }
 
 export function selectDeviceTypeBindings(id) {
@@ -60,9 +66,9 @@ export function selectInheritedDeviceTypeBindings(deviceTypeId) {
         )
         .in("device_type_id", deviceIds)
         .neq("device_type.status", 99)
-        .neq("firmware.status", 99)
+        .neq("status", 99)
         .order("device_type_id")
-        .order("depth", {ascending: true});
+        .order("depth", { ascending: true });
     });
 }
 
@@ -157,11 +163,20 @@ export function createDeviceTypeSignature(device_type_id, issuer_fingerprint) {
   ]);
 }
 
-export function createDeviceTypeInheritance(parentId, childId, issuer_fingerprint) {
-  return createInheritance("device_type_hierarchy", parentId, childId, issuer_fingerprint);
+export function createDeviceTypeInheritance(
+  parentId,
+  childId,
+  issuer_fingerprint
+) {
+  return createInheritance(
+    "device_type_hierarchy",
+    parentId,
+    childId,
+    issuer_fingerprint
+  );
 }
 
-export function createDeviceType({issuer_fingerprint, parent_id, ...data}) {
+export function createDeviceType({ issuer_fingerprint, parent_id, ...data }) {
   return supabase
     .from("device_type")
     .insert(data)
@@ -184,16 +199,16 @@ export function createDeviceType({issuer_fingerprint, parent_id, ...data}) {
 }
 
 export function deleteDeviceType(id) {
-  return supabase.from("device_type").update({status: 99}).eq("id", id);
+  return supabase.from("device_type").update({ status: 99 }).eq("id", id);
 }
 
 export function getDeviceType(id) {
   return supabase.from("device_type").select().eq("id", id).neq("status", 99);
 }
 
-export function saveDeviceType({id, name, description, manufacturer_link}) {
+export function saveDeviceType({ id, name, description, manufacturer_link }) {
   return supabase
     .from("device_type")
-    .update({name, description, manufacturer_link, updated_at: new Date()})
+    .update({ name, description, manufacturer_link, updated_at: new Date() })
     .eq("id", id);
 }
